@@ -47,7 +47,8 @@ export class TestData {
       title: 'Убраться у себя в комнате, полить растения',
       priority: TestData.priorities[2],
       completed: true,
-      category: TestData.categories[1]
+      category: TestData.categories[1],
+      date: new Date('2020-04-11')
     },
     {
       id: 4,
@@ -60,8 +61,10 @@ export class TestData {
     {
       id: 5,
       title: 'Найти и выучить учебник по квантовой физике',
+      priority: TestData.priorities[3],
       completed: false,
-      category: TestData.categories[2]
+      category: TestData.categories[2],
+      date: new Date('2020-08-17')
     },
     {
       id: 6,
@@ -76,13 +79,16 @@ export class TestData {
       title: 'Найти билеты в Турцию, выбрать отель',
       priority: TestData.priorities[2],
       completed: false,
-      category: TestData.categories[3]
+      category: TestData.categories[3],
+      date: new Date('2019-08-17')
     },
     {
       id: 8,
       title: 'Приготовить ужин для всей семьи (семга с картошкой)',
+      priority: TestData.priorities[3],
       completed: false,
-      category: TestData.categories[5]
+      category: TestData.categories[5],
+      date: new Date('2019-03-17')
     },
     {
       id: 9,
@@ -97,19 +103,24 @@ export class TestData {
       title: 'Пробежать 100 м',
       priority: TestData.priorities[0],
       completed: true,
-      category: TestData.categories[4]
+      category: TestData.categories[4],
+      date: new Date('2019-11-27')
     },
     {
       id: 11,
       title: 'Организовать детский праздник ',
-      completed: false
+      priority: TestData.priorities[1],
+      completed: false,
+      category: TestData.categories[2],
+      date: new Date('2019-01-11')
     },
     {
       id: 12,
       title: 'Сходить на лекцию "Как научиться программировать на Java"',
       priority: TestData.priorities[1],
       completed: false,
-      category: TestData.categories[2]
+      category: TestData.categories[2],
+      date: new Date('2020-01-11')
     },
     {
       id: 13,
@@ -122,28 +133,34 @@ export class TestData {
     {
       id: 14,
       title: 'Провести собрание по поводу всех проектов',
+      priority: TestData.priorities[3],
       completed: true,
-      category: TestData.categories[0]
+      category: TestData.categories[0],
+      date: new Date('2019-01-11')
     },
     {
       id: 15,
       title: 'Сдать экзамен по Java',
       priority: TestData.priorities[2],
-      completed: true
+      completed: true,
+      category: TestData.categories[3],
+      date: new Date('2019-11-11')
     },
     {
       id: 16,
       title: 'Положить 100 000 р в банк на депозит',
       priority: TestData.priorities[3],
       completed: false,
-      category: TestData.categories[6]
+      category: TestData.categories[6],
+      date: new Date('2019-11-09')
     },
     {
       id: 17,
       title: 'Попросить аванс на работе',
       priority: TestData.priorities[2],
       completed: false,
-      category: TestData.categories[6]
+      category: TestData.categories[6],
+      date: new Date('2020-06-23')
     },
     {
       id: 18,
