@@ -8,3 +8,19 @@
   color: #6f6a6e;
   font-weight: bold;
 }
+
+table {
+  width: 100%;
+}
+
+table th, tr {
+  text-align: center;
+}
+
+.title-align {
+  text-align: left;
+}
+
+.id-style {
+  font-weight: bold;
+}

@@ -12,13 +12,13 @@
       </ng-container>
       <ng-container matColumnDef="id">
         <th *matHeaderCellDef mat-header-cell></th>
-        <td *matCellDef="let index = index;" mat-cell>
+        <td class="id-style" *matCellDef="let index = index;" mat-cell>
           {{index + 1}}
         </td>
       </ng-container>
       <ng-container matColumnDef="title">
         <th *matHeaderCellDef mat-header-cell> Название</th>
-        <td *matCellDef="let task" [class.completed]="task.completed" mat-cell>
+        <td class="title-align" *matCellDef="let task" [class.completed]="task.completed" mat-cell>
           {{task.title}}
         </td>
       </ng-container>
