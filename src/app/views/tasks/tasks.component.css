@@ -9,18 +9,31 @@
   font-weight: bold;
 }
 
-table {
-  width: 100%;
+.col-color {
+  width: 3% !important;
 }
 
-table th, tr {
+.col-id {
+  width: 3%;
   text-align: center;
 }
 
-.title-align {
-  text-align: left;
+.col-title {
+  width: 50%;
 }
 
-.id-style {
-  font-weight: bold;
+.col-date {
+  width: 15% !important;
+}
+
+.col-priority {
+  width: 10%;
+}
+
+.col-category {
+  width: 10%;
+}
+
+table {
+  width: 100%;
 }
