@@ -1,26 +1,20 @@
-import { Injectable } from '@angular/core';
-import {Category} from '../interfaces/category';
-import {TestData} from '../data/testData';
-import {Task} from '../interfaces/task';
-import {BehaviorSubject} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {TaskDaoArray} from '../data/dao/impl/TaskDaoArray';
+import {CategoryDaoArray} from '../data/dao/impl/CategoryDaoArray';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataHandlerService {
 
-  tasksSubject = new BehaviorSubject<Task[]>(TestData.tasks);
-  categoriesSubject = new BehaviorSubject<Category[]>(TestData.categories);
-
-  constructor() {
-    this.fillTasks();
+  constructor(private taskDaoArray: TaskDaoArray, private categoryDaoArray: CategoryDaoArray) {
   }
 
-  fillTasks() {
-    this.tasksSubject.next(TestData.tasks);
+  getAllTasks() {
+    return this.taskDaoArray.getAll();
   }
 
-  fillTasksByCategory(category: Category) {
-    this.tasksSubject.next(TestData.tasks.filter(task => task.category === category));
+  getAllCategories() {
+    return this.categoryDaoArray.getAll();
   }
 }

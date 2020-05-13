@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Task} from '../../interfaces/task';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {MatTableDataSource} from '@angular/material';
@@ -10,10 +10,11 @@ import {MatSort} from '@angular/material/sort';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnInit, AfterViewInit {
+export class TasksComponent implements OnInit {
 
-  tasks: Task[];
-  private dataSource: MatTableDataSource<Task> = new MatTableDataSource<Task>();
+  @Input()
+  private tasks: Task[];
+  private dataSource: MatTableDataSource<Task>;
   public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
 
   @ViewChild(MatPaginator, {static: false}) private paginator: MatPaginator;
@@ -23,12 +24,8 @@ export class TasksComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.dataHandlerService.tasksSubject.subscribe(tasks => this.tasks = tasks);
-    this.refreshTable();
-  }
-
-  ngAfterViewInit(): void {
-    this.addTableItems();
+    this.dataSource = new MatTableDataSource<Task>();
+    this.fillTable();
   }
 
   toggleTaskCompleted(task: Task) {
@@ -42,7 +39,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
     return task.priority ? task.priority.color : '#fff';
   }
 
-  private refreshTable() {
+  private fillTable() {
     this.dataSource.data = this.tasks;
     this.addTableItems();
 

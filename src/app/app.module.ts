@@ -8,6 +8,8 @@ import {TasksComponent} from './views/tasks/tasks.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
+import {TaskDaoArray} from './data/dao/impl/TaskDaoArray';
+import {CategoryDaoArray} from './data/dao/impl/CategoryDaoArray';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,7 @@ import {MatSortModule} from '@angular/material/sort';
     MatSortModule,
     MatPaginatorModule
   ],
-  providers: [],
+  providers: [TaskDaoArray, CategoryDaoArray],
   bootstrap: [AppComponent]
 })
 export class AppModule {
