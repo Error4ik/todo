@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Task} from '../../interfaces/task';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {MatTableDataSource} from '@angular/material';
@@ -12,7 +12,6 @@ import {MatSort} from '@angular/material/sort';
 })
 export class TasksComponent implements OnInit {
 
-  @Input()
   private tasks: Task[];
   private dataSource: MatTableDataSource<Task>;
   public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
@@ -39,7 +38,19 @@ export class TasksComponent implements OnInit {
     return task.priority ? task.priority.color : '#fff';
   }
 
+  @Input('tasks')
+  private set setTasks(tasks: Task[]) {
+    this.tasks = tasks;
+    this.fillTable();
+  }
+
+  @Output()
+  updateTask = new EventEmitter<Task>();
+
   private fillTable() {
+    if (!this.dataSource) {
+      return;
+    }
     this.dataSource.data = this.tasks;
     this.addTableItems();
 
@@ -58,5 +69,9 @@ export class TasksComponent implements OnInit {
   private addTableItems() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  onClickTask(task: Task) {
+    this.updateTask.emit(task);
   }
 }

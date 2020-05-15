@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Category} from '../../interfaces/category';
 
 @Component({
@@ -9,6 +9,10 @@ import {Category} from '../../interfaces/category';
 export class CategoriesComponent implements OnInit {
   @Input()
   private categories: Category[];
+
+  @Output()
+  private selectCategory = new EventEmitter<Category>();
+
   private selectedCategory: Category;
 
   constructor() {
@@ -18,7 +22,11 @@ export class CategoriesComponent implements OnInit {
   }
 
   showTasksByCategory(category: Category) {
-    // this.selectedCategory = category;
-    // this.dataHandlerService.fillTasksByCategory(category);
+    if (this.selectedCategory === category) {
+      return;
+    }
+
+    this.selectedCategory = category;
+    this.selectCategory.emit(this.selectedCategory);
   }
 }
