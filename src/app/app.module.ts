@@ -10,21 +10,26 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {TaskDaoArray} from './data/dao/impl/TaskDaoArray';
 import {CategoryDaoArray} from './data/dao/impl/CategoryDaoArray';
+import { EditTaskDialogComponent } from './dialog/edit-task-dialog/edit-task-dialog.component';
+import {MatDialogModule} from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent,
     CategoriesComponent,
-    TasksComponent
+    TasksComponent,
+    EditTaskDialogComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDialogModule
   ],
   providers: [TaskDaoArray, CategoryDaoArray],
+  entryComponents: [EditTaskDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {
