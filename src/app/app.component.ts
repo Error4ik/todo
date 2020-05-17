@@ -29,7 +29,11 @@ export class AppComponent implements OnInit {
       .subscribe(tasks => this.tasks = tasks);
   }
 
-  onUpdateTask(task: Task) {
-    console.log(task);
+  onUpdateTask(task: Task): void {
+    this.dataHandlerService.updateTask(task)
+      .subscribe(() => {
+        this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
+          .subscribe(tasks => this.tasks = tasks);
+      });
   }
 }

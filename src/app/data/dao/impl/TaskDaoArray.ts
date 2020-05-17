@@ -42,8 +42,10 @@ export class TaskDaoArray implements TaskDAO {
     return of(this.searchTasks(category, searchText, status, priority));
   }
 
-  update(item: Task): Observable<Task> {
-    return undefined;
+  update(task: Task): Observable<Task> {
+    const tmpTask = TestData.tasks.find(t => t.id === task.id);
+    TestData.tasks.splice(TestData.tasks.indexOf(tmpTask), 1, task);
+    return of(task);
   }
 
   private searchTasks(category: Category, searchText: string, status: boolean, priority: Priority): Task[] {

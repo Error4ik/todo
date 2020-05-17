@@ -21,6 +21,15 @@ export class TasksComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) private sort: MatSort;
 
+  @Input('tasks')
+  private set setTasks(tasks: Task[]) {
+    this.tasks = tasks;
+    this.fillTable();
+  }
+
+  @Output()
+  updateTask = new EventEmitter<Task>();
+
   constructor(private dataHandlerService: DataHandlerService, private dialog: MatDialog) {
   }
 
@@ -39,15 +48,6 @@ export class TasksComponent implements OnInit {
     }
     return task.priority ? task.priority.color : '#fff';
   }
-
-  @Input('tasks')
-  private set setTasks(tasks: Task[]) {
-    this.tasks = tasks;
-    this.fillTable();
-  }
-
-  @Output()
-  updateTask = new EventEmitter<Task>();
 
   private fillTable(): string {
     if (!this.dataSource) {
@@ -75,9 +75,12 @@ export class TasksComponent implements OnInit {
 
   private editTaskDialog(task: Task): void {
     const dialogRef = this.dialog.open(EditTaskDialogComponent,
-      {data: [task, 'Edit task'], autoFocus: false});
+      {data: [task, 'Edit task'], autoFocus: false, width: '400px', height: '300px'});
     dialogRef.afterClosed().subscribe(result => {
-
+      if (result as Task) {
+        this.updateTask.emit(task);
+        return;
+      }
     });
   }
 }
