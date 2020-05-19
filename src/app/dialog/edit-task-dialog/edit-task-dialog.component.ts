@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Task} from 'src/app/interfaces/task';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {Category} from '../../interfaces/category';
+import {Priority} from '../../interfaces/priority';
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -17,6 +18,8 @@ export class EditTaskDialogComponent implements OnInit {
   private tmpTitle: string;
   private categories: Category[];
   private tmpCategory: Category;
+  protected priorities: Priority[];
+  private tmpPriority: Priority;
 
   constructor(
     private dialogRef: MatDialogRef<EditTaskDialogComponent>,
@@ -29,12 +32,15 @@ export class EditTaskDialogComponent implements OnInit {
     this.dialogTitle = this.data[1];
     this.tmpTitle = this.task.title;
     this.tmpCategory = this.task.category;
+    this.tmpPriority = this.task.priority;
     this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
+    this.dataHandlerService.getAllPriorities().subscribe(priorities => this.priorities = priorities);
   }
 
   onConfirm(): void {
     this.task.title = this.tmpTitle;
     this.task.category = this.tmpCategory;
+    this.task.priority = this.tmpPriority;
     this.dialogRef.close(this.task);
   }
 

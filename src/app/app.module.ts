@@ -19,6 +19,7 @@ import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatOptionModule} from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
+import {PriorityDaoArray} from './data/dao/impl/PriorityDaoArray';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatOptionModule,
     MatSelectModule
   ],
-  providers: [TaskDaoArray, CategoryDaoArray],
+  providers: [TaskDaoArray, CategoryDaoArray, PriorityDaoArray],
   entryComponents: [EditTaskDialogComponent],
   bootstrap: [AppComponent]
 })
