@@ -75,7 +75,7 @@ export class TasksComponent implements OnInit {
 
   private editTaskDialog(task: Task): void {
     const dialogRef = this.dialog.open(EditTaskDialogComponent,
-      {data: [task, 'Edit task'], autoFocus: false, width: '400px', height: '300px'});
+      {data: [task, 'Edit task'], autoFocus: false, width: '500px', height: '400px'});
     dialogRef.afterClosed().subscribe(result => {
       if (result as Task) {
         this.updateTask.emit(task);

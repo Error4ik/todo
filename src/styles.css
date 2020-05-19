@@ -10,3 +10,11 @@
   text-align: center;
   color: #aaa79c;
 }
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-dialog-content {
+  padding: 40px !important;
+}

@@ -17,6 +17,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
+import {MatOptionModule} from '@angular/material';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import {MatButtonModule} from '@angular/material/button';
     FormsModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   providers: [TaskDaoArray, CategoryDaoArray],
   entryComponents: [EditTaskDialogComponent],
