@@ -31,5 +31,6 @@
   <button mat-raised-button color="primary" (click)="onConfirm()" [disabled]="inputTitle.value.trim().length == 0">
     Save
   </button>
-  <button mat-raised-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
+  <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
 </mat-dialog-actions>

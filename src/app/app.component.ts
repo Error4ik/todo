@@ -22,18 +22,25 @@ export class AppComponent implements OnInit {
     this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
   }
 
-  onSelectedCategory(category: Category) {
+  private onSelectedCategory(category: Category) {
     this.selectedCategory = category;
 
     this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
       .subscribe(tasks => this.tasks = tasks);
   }
 
-  onUpdateTask(task: Task): void {
+  private onUpdateTask(task: Task): void {
     this.dataHandlerService.updateTask(task)
       .subscribe(() => {
         this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
           .subscribe(tasks => this.tasks = tasks);
       });
+  }
+
+  private onDeleteTask(task: Task) {
+    this.dataHandlerService.deleteTask(task.id).subscribe(() => {
+      this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
+        .subscribe(tasks => this.tasks = tasks);
+    });
   }
 }

@@ -1,10 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MatDialogRef} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Task} from 'src/app/interfaces/task';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {Category} from '../../interfaces/category';
 import {Priority} from '../../interfaces/priority';
+import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -24,7 +25,8 @@ export class EditTaskDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<EditTaskDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: [Task, string],
-    private dataHandlerService: DataHandlerService) {
+    private dataHandlerService: DataHandlerService,
+    private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -46,5 +48,22 @@ export class EditTaskDialogComponent implements OnInit {
 
   onCancel(): void {
     this.dialogRef.close(null);
+  }
+
+  onDelete() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      // maxWidth: '500px',
+      data: {
+        dialogTitle: 'Confirm the action.',
+        message: `Are you sure that you want to delete an task? "${this.task.title}"`,
+        autoFocus: false
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dialogRef.close('delete');
+      }
+    });
   }
 }

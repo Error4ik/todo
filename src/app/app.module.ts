@@ -20,13 +20,15 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatOptionModule} from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
 import {PriorityDaoArray} from './data/dao/impl/PriorityDaoArray';
+import {ConfirmDialogComponent} from './dialog/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CategoriesComponent,
     TasksComponent,
-    EditTaskDialogComponent
+    EditTaskDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,7 @@ import {PriorityDaoArray} from './data/dao/impl/PriorityDaoArray';
     MatSelectModule
   ],
   providers: [TaskDaoArray, CategoryDaoArray, PriorityDaoArray],
-  entryComponents: [EditTaskDialogComponent],
+  entryComponents: [EditTaskDialogComponent, ConfirmDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {
