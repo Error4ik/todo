@@ -1,3 +1,7 @@
 .dialog-task-title {
   font-size: 25px !important;
 }
+
+.green {
+  color: green;
+}

@@ -28,9 +28,15 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="onConfirm()" [disabled]="inputTitle.value.trim().length == 0">
-    Save
-  </button>
-  <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
-  <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+  <div class="col-md-5 col-12">
+    <button mat-raised-button color="primary" (click)="onConfirm()" [disabled]="inputTitle.value.trim().length == 0">
+      Save
+    </button>
+    <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+  </div>
+  <div class="col-md-7 col-12 text-right">
+    <button mat-raised-button class="green" (click)="activateTask()" *ngIf="task.completed">Activate</button>
+    <button mat-raised-button class="green" (click)="completeTask()" *ngIf="!task.completed">Complete</button>
+    <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
+  </div>
 </mat-dialog-actions>
