@@ -23,6 +23,12 @@ import {PriorityDaoArray} from './data/dao/impl/PriorityDaoArray';
 import {ConfirmDialogComponent} from './dialog/confirm-dialog/confirm-dialog.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {TaskDatePipe} from './pipe/task-date.pipe';
+
+import {registerLocaleData} from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
+
+registerLocaleData(localeRu);
 
 @NgModule({
   declarations: [
@@ -30,7 +36,8 @@ import {MatNativeDateModule} from '@angular/material/core';
     CategoriesComponent,
     TasksComponent,
     EditTaskDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    TaskDatePipe
   ],
   imports: [
     BrowserModule,
