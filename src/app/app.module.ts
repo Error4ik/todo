@@ -21,6 +21,8 @@ import {MatOptionModule} from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
 import {PriorityDaoArray} from './data/dao/impl/PriorityDaoArray';
 import {ConfirmDialogComponent} from './dialog/confirm-dialog/confirm-dialog.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import {ConfirmDialogComponent} from './dialog/confirm-dialog/confirm-dialog.com
     MatIconModule,
     MatButtonModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [TaskDaoArray, CategoryDaoArray, PriorityDaoArray],
   entryComponents: [EditTaskDialogComponent, ConfirmDialogComponent],

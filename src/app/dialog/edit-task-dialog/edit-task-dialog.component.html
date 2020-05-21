@@ -4,7 +4,7 @@
     <mat-label>Name (required)</mat-label>
     <input #inputTitle matInput [(ngModel)]="tmpTitle" (keydown.enter)="onConfirm()">
     <button *ngIf="tmpTitle.trim().length > 0" mat-button matSuffix mat-icon-button aria-label="Clear"
-            (click)="tmpTitle=''" class="dialog-task-title">
+            (click)="tmpTitle=''" class="clear-button">
       <mat-icon>clear</mat-icon>
     </button>
   </mat-form-field>
@@ -24,6 +24,19 @@
         {{priority.title}}
       </mat-option>
     </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Choose a date</mat-label>
+    <input matInput placeholder="Choose date" #inputDate readonly="true" [matDatepicker]="picker" [(ngModel)]="tmpDate"
+           (click)="picker.open()">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <button
+      *ngIf="inputDate.value.trim().length > 0"
+      mat-button matSuffix mat-icon-button aria-label="Clear"
+      (click)="tmpDate = null" class="clear-button">
+      <mat-icon>clear</mat-icon>
+    </button>
   </mat-form-field>
 </mat-dialog-content>
 

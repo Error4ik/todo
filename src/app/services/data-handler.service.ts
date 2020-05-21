@@ -15,11 +15,11 @@ export class DataHandlerService {
   constructor(private taskDaoArray: TaskDaoArray, private categoryDaoArray: CategoryDaoArray, private priorityDaoArray: PriorityDaoArray) {
   }
 
-  getAllTasks() {
+  getAllTasks(): Observable<Task[]> {
     return this.taskDaoArray.getAll();
   }
 
-  getAllCategories() {
+  getAllCategories(): Observable<Category[]> {
     return this.categoryDaoArray.getAll();
   }
 
@@ -31,11 +31,11 @@ export class DataHandlerService {
     return this.taskDaoArray.update(task);
   }
 
-  getAllPriorities() {
+  getAllPriorities(): Observable<Priority[]> {
     return this.priorityDaoArray.getAll();
   }
 
-  deleteTask(id: number) {
+  deleteTask(id: number): Observable<Task> {
     return this.taskDaoArray.delete(id);
   }
 }
