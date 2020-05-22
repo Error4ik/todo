@@ -8,12 +8,13 @@ import {Category} from '../../interfaces/category';
 })
 export class CategoriesComponent implements OnInit {
   @Input()
-  private categories: Category[];
+  categories: Category[];
 
   @Output()
-  private selectCategory = new EventEmitter<Category>();
+  selectCategory = new EventEmitter<Category>();
 
-  private selectedCategory: Category;
+  @Input()
+  selectedCategory: Category;
 
   constructor() {
   }

@@ -12,17 +12,18 @@ export class AppComponent implements OnInit {
   title = 'todo';
   tasks: Task[];
   categories: Category[];
-  selectedCategory: Category;
+
+  private selectedCategory: Category = null;
 
   constructor(private dataHandlerService: DataHandlerService) {
   }
 
   ngOnInit(): void {
-    this.dataHandlerService.getAllTasks().subscribe(tasks => this.tasks = tasks);
     this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
+    this.onSelectCategory(this.selectedCategory);
   }
 
-  private onSelectedCategory(category: Category) {
+  private onSelectCategory(category: Category) {
     this.selectedCategory = category;
 
     this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)

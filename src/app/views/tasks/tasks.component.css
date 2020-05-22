@@ -70,3 +70,8 @@ table {
   color: #000000;
   font-weight: bold;
 }
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
