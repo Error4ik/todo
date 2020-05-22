@@ -1,3 +1,13 @@
 .pointer {
   cursor: pointer;
 }
+
+.line {
+  border-bottom: 1px solid #dadada;
+  padding-top: 20px;
+}
+
+.all-category-title {
+  font-size: 16px;
+  font-weight: 500;
+}
