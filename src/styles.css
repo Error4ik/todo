@@ -16,5 +16,9 @@
 }
 
 .mat-dialog-content {
-  padding: 40px !important;
+  padding: 20px !important;
+}
+
+.mat-dialog-actions {
+  padding-bottom: 20px !important;
 }

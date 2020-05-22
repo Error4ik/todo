@@ -18,11 +18,11 @@
 }
 
 .col-title {
-  width: 50%;
+  width: 55%;
 }
 
 .col-date {
-  width: 15% !important;
+  width: 10% !important;
 }
 
 .col-priority {
@@ -33,10 +33,40 @@
   width: 10%;
 }
 
+.col-operation {
+  width: 6%;
+}
+
+.col-select {
+  width: 3%;
+}
+
 table {
   width: 100%;
 }
 
 .pointer {
   cursor: pointer;
+}
+
+.delete-icon {
+  cursor: pointer;
+  color: #ea6561;
+  font-size: 18px;
+  margin-right: 3px;
+  margin-left: 3px;
+}
+
+.edit-icon {
+  cursor: pointer;
+  color: #9a9a9a;
+  font-size: 18px;
+  margin-right: 3px;
+  margin-left: 3px;
+}
+
+.mat-header-cell {
+  font-size: 1.2rem;
+  color: #000000;
+  font-weight: bold;
 }

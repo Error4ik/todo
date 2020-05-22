@@ -6,6 +6,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-tasks',
@@ -16,7 +17,7 @@ export class TasksComponent implements OnInit {
 
   private tasks: Task[];
   private dataSource: MatTableDataSource<Task>;
-  public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
+  public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operations', 'select'];
 
   @ViewChild(MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) private sort: MatSort;
@@ -40,11 +41,7 @@ export class TasksComponent implements OnInit {
     this.fillTable();
   }
 
-  toggleTaskCompleted(task: Task) {
-    task.completed = !task.completed;
-  }
-
-  getPriorityColor(task: Task): string {
+  private getPriorityColor(task: Task): string {
     if (task.completed) {
       return 'rgb(226,224,224)';
     }
@@ -77,7 +74,7 @@ export class TasksComponent implements OnInit {
 
   private editTaskDialog(task: Task): void {
     const dialogRef = this.dialog.open(EditTaskDialogComponent,
-      {data: [task, 'Edit task'], autoFocus: false, width: '500px', height: '500px'});
+      {data: [task, 'Edit task'], maxWidth: '600px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'complete') {
         task.completed = !task.completed;
@@ -97,6 +94,23 @@ export class TasksComponent implements OnInit {
         this.updateTask.emit(task);
         return;
       }
+    });
+  }
+
+  private onToggleStatus(task: Task) {
+    task.completed = !task.completed;
+    this.updateTask.emit(task);
+  }
+
+  private openDeletedDialog(task: Task): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '500px',
+      data: {dialogTitle: 'Confirm the action', message: `Are you sure that you want to delete an task? ${task.title}`},
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.deleteTask.emit(task);
     });
   }
 }
