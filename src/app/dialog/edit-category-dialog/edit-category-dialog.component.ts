@@ -39,7 +39,7 @@ export class EditCategoryDialogComponent implements OnInit {
       maxWidth: '500px',
       data: {
         dialogTitle: 'Confirm the action.',
-        message: `Are you sure that you want to delete an task? ${this.categoryTitle}`,
+        message: `Are you sure that you want to delete an category? ${this.categoryTitle}`,
         autoFocus: false
       }
     });

@@ -26,8 +26,7 @@ export class AppComponent implements OnInit {
   private onSelectCategory(category: Category) {
     this.selectedCategory = category;
 
-    this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
-      .subscribe(tasks => this.tasks = tasks);
+    this.updateTasks();
   }
 
   private onUpdateTask(task: Task): void {
@@ -46,15 +45,20 @@ export class AppComponent implements OnInit {
   }
 
   private onDeleteCategory(category: Category) {
-    this.dataHandlerService.deleteCategory(category.id).subscribe(cat => {
+    this.dataHandlerService.deleteCategory(category.id).subscribe(() => {
       this.selectedCategory = null;
       this.onSelectCategory(this.selectedCategory);
     });
   }
 
   private onUpdateCategory(category: Category) {
-    this.dataHandlerService.updateCategory(category).subscribe(cat => {
+    this.dataHandlerService.updateCategory(category).subscribe(() => {
       this.onSelectCategory(this.selectedCategory);
     });
+  }
+
+  private updateTasks(): void {
+    this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
+      .subscribe(tasks => this.tasks = tasks);
   }
 }

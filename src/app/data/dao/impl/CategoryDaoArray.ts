@@ -16,7 +16,7 @@ export class CategoryDaoArray implements CategoryDAO {
     });
 
     const tmpCategory = TestData.categories.find(t => t.id === id);
-    TestData.categories.splice(TestData.categories.indexOf(tmpCategory));
+    TestData.categories.splice(TestData.categories.indexOf(tmpCategory), 1);
     return of(tmpCategory);
   }
 
