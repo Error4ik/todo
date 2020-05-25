@@ -9,7 +9,15 @@ export class CategoryDaoArray implements CategoryDAO {
   }
 
   delete(id: number): Observable<Category> {
-    return undefined;
+    TestData.tasks.forEach(task => {
+      if (task.category && task.category.id === id) {
+        task.category = null;
+      }
+    });
+
+    const tmpCategory = TestData.categories.find(t => t.id === id);
+    TestData.categories.splice(TestData.categories.indexOf(tmpCategory));
+    return of(tmpCategory);
   }
 
   get(id: number): Observable<Category> {
@@ -24,7 +32,9 @@ export class CategoryDaoArray implements CategoryDAO {
     return undefined;
   }
 
-  update(item: Category): Observable<Category> {
-    return undefined;
+  update(category: Category): Observable<Category> {
+    const tmpCategory = TestData.categories.find(t => t.id === category.id);
+    TestData.categories.splice(TestData.categories.indexOf(tmpCategory), 1, category);
+    return of(tmpCategory);
   }
 }

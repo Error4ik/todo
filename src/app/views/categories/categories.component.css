@@ -7,7 +7,28 @@
   padding-top: 20px;
 }
 
-.all-category-title {
+.main-category-title {
   font-size: 16px;
   font-weight: 500;
+}
+
+.category-title {
+  display: inline-block;
+  font-size: 16px;
+  width: 80%;
+}
+
+.edit-category-icon-area {
+  width: 16%;
+  display: inline-block;
+  font-size: 13px;
+}
+
+.edit-category-icon {
+  color: #dadada;
+  margin-bottom: 5px;
+}
+
+.category-height {
+  height: 50px;
 }
