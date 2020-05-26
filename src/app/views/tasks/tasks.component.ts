@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Task} from '../../interfaces/task';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {MatTableDataSource} from '@angular/material';
@@ -8,17 +8,35 @@ import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-d
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {Category} from '../../interfaces/category';
+import {Priority} from '../../interfaces/priority';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent implements OnInit, AfterViewInit {
 
   private tasks: Task[];
   private dataSource: MatTableDataSource<Task>;
   public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operations', 'select'];
+  private searchTaskText: string;
+  private selectedStatusFilter: boolean;
+  private selectedPriorityFilter: Priority = null;
+  private priorities: Priority[];
+
+  @Output()
+  private updateTask = new EventEmitter<Task>();
+  @Output()
+  private deleteTask = new EventEmitter<Task>();
+  @Output()
+  private selectCategory = new EventEmitter<Category>();
+  @Output()
+  private filterByTitle = new EventEmitter();
+  @Output()
+  private filterByStatus = new EventEmitter();
+  @Output()
+  private filterPriority = new EventEmitter();
 
   @ViewChild(MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) private sort: MatSort;
@@ -29,12 +47,10 @@ export class TasksComponent implements OnInit {
     this.fillTable();
   }
 
-  @Output()
-  private updateTask = new EventEmitter<Task>();
-  @Output()
-  private deleteTask = new EventEmitter<Task>();
-  @Output()
-  private selectCategory = new EventEmitter<Category>();
+  @Input('priorities')
+  private set setPriorities(priorities: Priority[]) {
+    this.priorities = priorities;
+  }
 
   constructor(private dataHandlerService: DataHandlerService, private dialog: MatDialog) {
   }
@@ -42,6 +58,10 @@ export class TasksComponent implements OnInit {
   ngOnInit() {
     this.dataSource = new MatTableDataSource<Task>();
     this.fillTable();
+  }
+
+  ngAfterViewInit(): void {
+    this.addTableItems();
   }
 
   private getPriorityColor(task: Task): string {
@@ -79,6 +99,7 @@ export class TasksComponent implements OnInit {
     const dialogRef = this.dialog.open(EditTaskDialogComponent,
       {data: [task, 'Edit task'], maxWidth: '600px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
+      this.addTableItems();
       if (result === 'complete') {
         task.completed = !task.completed;
         this.updateTask.emit(task);
@@ -114,10 +135,33 @@ export class TasksComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.deleteTask.emit(task);
+      return;
     });
   }
 
   private onSelectCategory(category: Category) {
     this.selectCategory.emit(category);
+    this.addTableItems();
+  }
+
+  private onFilterByTitle() {
+    this.addTableItems();
+    this.filterByTitle.emit(this.searchTaskText);
+  }
+
+  private onFilterByStatus(value: boolean) {
+    if (value !== this.selectedStatusFilter) {
+      this.addTableItems();
+      this.selectedStatusFilter = value;
+      this.filterByStatus.emit(this.selectedStatusFilter);
+    }
+  }
+
+  private onFilterByPriority(priority: Priority) {
+    if (this.selectedPriorityFilter !== priority) {
+      this.addTableItems();
+      this.selectedPriorityFilter = priority;
+      this.filterPriority.emit(this.selectedPriorityFilter);
+    }
   }
 }

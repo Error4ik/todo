@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Task} from './interfaces/task';
 import {DataHandlerService} from './services/data-handler.service';
 import {Category} from './interfaces/category';
+import {Priority} from './interfaces/priority';
 
 @Component({
   selector: 'app-root',
@@ -12,35 +13,37 @@ export class AppComponent implements OnInit {
   title = 'todo';
   tasks: Task[];
   categories: Category[];
+  priorities: Priority[];
 
   private selectedCategory: Category = null;
+  private filterByTitle: string;
+  private filterByStatus: boolean;
+  private filterPriority: Priority;
 
   constructor(private dataHandlerService: DataHandlerService) {
   }
 
   ngOnInit(): void {
     this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
+    this.dataHandlerService.getAllPriorities().subscribe(priorities => this.priorities = priorities);
     this.onSelectCategory(this.selectedCategory);
   }
 
   private onSelectCategory(category: Category) {
     this.selectedCategory = category;
-
     this.updateTasks();
   }
 
   private onUpdateTask(task: Task): void {
     this.dataHandlerService.updateTask(task)
       .subscribe(() => {
-        this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
-          .subscribe(tasks => this.tasks = tasks);
+        this.updateTasks();
       });
   }
 
   private onDeleteTask(task: Task) {
     this.dataHandlerService.deleteTask(task.id).subscribe(() => {
-      this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
-        .subscribe(tasks => this.tasks = tasks);
+      this.onSelectCategory(this.selectedCategory);
     });
   }
 
@@ -57,8 +60,23 @@ export class AppComponent implements OnInit {
     });
   }
 
+  private onFilterByTaskTitle(title: string) {
+    this.filterByTitle = title;
+    this.updateTasks();
+  }
+
+  private onFilterByTaskStatus(status: boolean) {
+    this.filterByStatus = status;
+    this.updateTasks();
+  }
+
+  onFilterByTaskPriority(priority: Priority) {
+    this.filterPriority = priority;
+    this.updateTasks();
+  }
+
   private updateTasks(): void {
-    this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
+    this.dataHandlerService.searchTasks(this.selectedCategory, this.filterByTitle, this.filterByStatus, this.filterPriority)
       .subscribe(tasks => this.tasks = tasks);
   }
 }

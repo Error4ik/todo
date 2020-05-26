@@ -82,9 +82,13 @@
           <div class="col-12">
             <app-tasks
               [tasks]="tasks"
+              [priorities]="priorities"
               (updateTask)="onUpdateTask($event)"
               (deleteTask)="onDeleteTask($event)"
-              (selectCategory)="onSelectCategory($event)">
+              (selectCategory)="onSelectCategory($event)"
+              (filterByTitle)="onFilterByTaskTitle($event)"
+              (filterByStatus)="onFilterByTaskStatus($event)"
+              (filterPriority)="onFilterByTaskPriority($event)">
             </app-tasks>
           </div>
         </div>
