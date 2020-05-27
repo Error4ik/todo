@@ -174,7 +174,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
   private openAddTaskDialog() {
     const task = new Task(null, '', false, null, this.selectedCategory);
     const dialogRef = this.dialog.open(EditTaskDialogComponent, {
-      data: [task, 'The creation of the task']
+      data: [task, 'The creation of the task'], maxWidth: '600px', autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(result => {
