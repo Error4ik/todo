@@ -30,6 +30,8 @@ export class TasksComponent implements OnInit, AfterViewInit {
   @Output()
   private deleteTask = new EventEmitter<Task>();
   @Output()
+  private addTask = new EventEmitter<Task>();
+  @Output()
   private selectCategory = new EventEmitter<Category>();
   @Output()
   private filterByTitle = new EventEmitter();
@@ -51,6 +53,9 @@ export class TasksComponent implements OnInit, AfterViewInit {
   private set setPriorities(priorities: Priority[]) {
     this.priorities = priorities;
   }
+
+  @Input()
+  private selectedCategory: Category;
 
   constructor(private dataHandlerService: DataHandlerService, private dialog: MatDialog) {
   }
@@ -164,5 +169,17 @@ export class TasksComponent implements OnInit, AfterViewInit {
       this.selectedPriorityFilter = priority;
       this.filterPriority.emit(this.selectedPriorityFilter);
     }
+  }
+
+  private openAddTaskDialog() {
+    const task = new Task(null, '', false, null, this.selectedCategory);
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+      data: [task, 'The creation of the task']
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.addTask.emit(task);
+      this.addTableItems();
+    });
   }
 }

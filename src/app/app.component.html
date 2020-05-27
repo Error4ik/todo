@@ -83,8 +83,10 @@
             <app-tasks
               [tasks]="tasks"
               [priorities]="priorities"
+              [selectedCategory]="selectedCategory"
               (updateTask)="onUpdateTask($event)"
               (deleteTask)="onDeleteTask($event)"
+              (addTask)="onAddTask($event)"
               (selectCategory)="onSelectCategory($event)"
               (filterByTitle)="onFilterByTaskTitle($event)"
               (filterByStatus)="onFilterByTaskStatus($event)"

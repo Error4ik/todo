@@ -4,10 +4,13 @@ import {Priority} from '../../../interfaces/priority';
 import {Task} from '../../../interfaces/task';
 import {Observable, of} from 'rxjs';
 import {TestData} from '../../testData';
+import apply = Reflect.apply;
 
 export class TaskDaoArray implements TaskDAO {
-  add(item: Task): Observable<Task> {
-    return undefined;
+  add(task: Task): Observable<Task> {
+    task.id = this.getLastIdTask();
+    TestData.tasks.push(task);
+    return of(task);
   }
 
   delete(id: number): Observable<Task> {
@@ -65,5 +68,9 @@ export class TaskDaoArray implements TaskDAO {
       allTasks = allTasks.filter(task => task.priority === priority);
     }
     return allTasks;
+  }
+
+  private getLastIdTask(): number {
+    return Math.max.apply(Math, TestData.tasks.map(task => task.id)) + 1;
   }
 }

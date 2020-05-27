@@ -26,12 +26,18 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
     this.dataHandlerService.getAllPriorities().subscribe(priorities => this.priorities = priorities);
-    this.onSelectCategory(this.selectedCategory);
+    this.onSelectCategory(null);
   }
 
   private onSelectCategory(category: Category) {
     this.selectedCategory = category;
     this.updateTasks();
+  }
+
+  private onAddTask(task: Task) {
+    this.dataHandlerService.addTask(task).subscribe(() => {
+      this.updateTasks();
+    });
   }
 
   private onUpdateTask(task: Task): void {
