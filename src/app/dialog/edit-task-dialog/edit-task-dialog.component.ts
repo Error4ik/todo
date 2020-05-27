@@ -6,6 +6,7 @@ import {DataHandlerService} from '../../services/data-handler.service';
 import {Category} from '../../interfaces/category';
 import {Priority} from '../../interfaces/priority';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
+import {OperationType} from '../OperationType';
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -22,10 +23,11 @@ export class EditTaskDialogComponent implements OnInit {
   protected priorities: Priority[];
   private tmpPriority: Priority;
   private tmpDate: Date;
+  private operationType: OperationType;
 
   constructor(
     private dialogRef: MatDialogRef<EditTaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: [Task, string],
+    @Inject(MAT_DIALOG_DATA) private data: [Task, string, OperationType],
     private dataHandlerService: DataHandlerService,
     private dialog: MatDialog) {
   }
@@ -33,10 +35,11 @@ export class EditTaskDialogComponent implements OnInit {
   ngOnInit() {
     this.task = this.data[0];
     this.dialogTitle = this.data[1];
+    this.operationType = this.data[2];
     this.tmpTitle = this.task.title;
     this.tmpCategory = this.task.category;
     this.tmpPriority = this.task.priority;
-    this.tmpDate = this.data[0].date;
+    this.tmpDate = this.task.date;
     this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
     this.dataHandlerService.getAllPriorities().subscribe(priorities => this.priorities = priorities);
   }
@@ -76,5 +79,9 @@ export class EditTaskDialogComponent implements OnInit {
 
   private completeTask() {
     this.dialogRef.close('activate');
+  }
+
+  private isCanShow(): boolean {
+    return this.operationType === OperationType.ADD;
   }
 }

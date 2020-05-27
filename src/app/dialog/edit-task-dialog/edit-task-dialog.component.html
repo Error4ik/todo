@@ -47,7 +47,7 @@
     </button>
     <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
   </div>
-  <div class="col-md-7 col-12 text-right">
+  <div class="col-md-7 col-12 text-right" *ngIf="!isCanShow()">
     <button mat-button class="green" (click)="activateTask()" *ngIf="task.completed">Activate</button>
     <button mat-button class="green" (click)="completeTask()" *ngIf="!task.completed">Complete</button>
     <button mat-button color="warn" (click)="onDelete()">Delete</button>
