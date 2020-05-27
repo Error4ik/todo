@@ -99,25 +99,21 @@ export class TasksComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(EditTaskDialogComponent,
       {data: [task, 'Edit task'], maxWidth: '600px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
-      this.addTableItems();
       if (result === 'complete') {
         task.completed = !task.completed;
         this.updateTask.emit(task);
-        return;
       }
       if (result === 'activate') {
         task.completed = !task.completed;
         this.updateTask.emit(task);
-        return;
       }
       if (result === 'delete') {
         this.deleteTask.emit(task);
-        return;
       }
       if (result as Task) {
         this.updateTask.emit(task);
-        return;
       }
+      this.addTableItems();
     });
   }
 
@@ -126,16 +122,21 @@ export class TasksComponent implements OnInit, AfterViewInit {
     this.updateTask.emit(task);
   }
 
-  private openDeletedDialog(task: Task): void {
+  private openDeleteDialog(task: Task): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: '500px',
-      data: {dialogTitle: 'Confirm the action', message: `Are you sure that you want to delete an task? ${task.title}`},
+      data: {
+        dialogTitle: 'Confirm the action',
+        message: `Are you sure that you want to delete an task? ${task.title}`
+      },
       autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.deleteTask.emit(task);
-      return;
+      if (result) {
+        this.deleteTask.emit(task);
+      }
+      this.addTableItems();
     });
   }
 

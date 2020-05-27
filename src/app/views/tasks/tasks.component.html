@@ -126,7 +126,7 @@
           <ng-container matColumnDef="operations">
             <th *matHeaderCellDef mat-header-cell></th>
             <td class="col-operation" mat-cell *matCellDef="let task" [class.completed]="task.completed">
-              <button mat-icon-button (click)="openDeletedDialog(task)" class="delete-icon">
+              <button mat-icon-button (click)="openDeleteDialog(task)" class="delete-icon">
                 <mat-icon aria-hidden="false">delete</mat-icon>
               </button>
               <button mat-icon-button (click)="editTaskDialog(task)" class="edit-icon">
