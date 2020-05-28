@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Task} from '../../interfaces/task';
-import {DataHandlerService} from '../../services/data-handler.service';
 import {MatTableDataSource} from '@angular/material';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -58,7 +57,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
   @Input()
   private selectedCategory: Category;
 
-  constructor(private dataHandlerService: DataHandlerService, private dialog: MatDialog) {
+  constructor(private dialog: MatDialog) {
   }
 
   ngOnInit() {
