@@ -37,10 +37,9 @@ export class AppComponent implements OnInit {
   }
 
   private onUpdateTask(task: Task): void {
-    this.dataHandlerService.updateTask(task)
-      .subscribe(() => {
-        this.updateTasks();
-      });
+    this.dataHandlerService.updateTask(task).subscribe(() => {
+      this.updateTasks();
+    });
   }
 
   private onDeleteTask(task: Task): void {
@@ -86,8 +85,7 @@ export class AppComponent implements OnInit {
 
   private onUpdateCategory(category: Category): void {
     this.dataHandlerService.updateCategory(category).subscribe(() => {
-      this.onSelectCategory(this.selectedCategory);
-      this.updateCategories();
+      this.onFilteredByCategoryName(this.filterCategoryByName);
     });
   }
 
