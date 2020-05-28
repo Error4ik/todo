@@ -1,9 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Category} from '../../interfaces/category';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import {Task} from '../../interfaces/task';
-import {DataHandlerService} from '../../services/data-handler.service';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
+import {OperationType} from '../OperationType';
+import {Category} from '../../interfaces/category';
 
 @Component({
   selector: 'app-edit-category-dialog',
@@ -12,34 +11,39 @@ import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component
 })
 export class EditCategoryDialogComponent implements OnInit {
 
-  private categoryTitle: string;
+  private category: Category;
+  private tmpTitle: string;
   private dialogTitle: string;
+  private operationType: OperationType;
 
   constructor(
     private dialogRef: MatDialogRef<EditCategoryDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: [string, string],
+    @Inject(MAT_DIALOG_DATA) private data: [Category, string, OperationType],
     private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.categoryTitle = this.data[0];
+    this.category = this.data[0];
     this.dialogTitle = this.data[1];
+    this.operationType = this.data[2];
+    this.tmpTitle = this.category.title;
   }
 
-  onConfirm() {
-    this.dialogRef.close(this.categoryTitle);
+  private onConfirm() {
+    this.category.title = this.tmpTitle;
+    this.dialogRef.close(this.category);
   }
 
-  onCancel() {
+  private onCancel() {
     this.dialogRef.close(false);
   }
 
-  onDelete() {
+  private onDelete() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: '500px',
       data: {
         dialogTitle: 'Confirm the action.',
-        message: `Are you sure that you want to delete an category? ${this.categoryTitle}`,
+        message: `Are you sure that you want to delete an category? ${this.tmpTitle}`,
         autoFocus: false
       }
     });
@@ -49,5 +53,9 @@ export class EditCategoryDialogComponent implements OnInit {
         this.dialogRef.close('delete');
       }
     });
+  }
+
+  private isCanShow(): boolean {
+    return this.operationType === OperationType.ADD;
   }
 }

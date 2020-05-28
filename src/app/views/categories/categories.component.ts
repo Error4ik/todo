@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material';
 import {EditCategoryDialogComponent} from '../../dialog/edit-category-dialog/edit-category-dialog.component';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {Task} from '../../interfaces/task';
+import {OperationType} from '../../dialog/OperationType';
 
 @Component({
   selector: 'app-categories',
@@ -21,6 +22,8 @@ export class CategoriesComponent implements OnInit {
   private deleteCategory = new EventEmitter<Category>();
   @Output()
   private updateCategory = new EventEmitter<Category>();
+  @Output()
+  private createCategory = new EventEmitter<Category>();
 
   private indexMouseMovie: number;
 
@@ -45,18 +48,25 @@ export class CategoriesComponent implements OnInit {
 
   openEditCategoryDialog(category: Category) {
     const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
-      data: [category.title, 'Edit category'], width: '500px', autoFocus: false
+      data: [category, 'Edit category'], width: '500px', autoFocus: false
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 'delete') {
+      if (result as 'string' && result === 'delete') {
         this.deleteCategory.emit(category);
         return;
       }
-      if (result as 'string') {
-        category.title = result;
-        this.updateCategory.emit(category);
-        return;
-      }
+      this.updateCategory.emit(category);
+    });
+  }
+
+  private openAddCategoryDialog() {
+    const category = new Category(null, '');
+    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
+      data: [category, 'Create category', OperationType.ADD], width: '500px', autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.createCategory.emit(result);
     });
   }
 }

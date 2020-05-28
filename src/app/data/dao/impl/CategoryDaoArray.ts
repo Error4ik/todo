@@ -4,8 +4,10 @@ import {Observable, of} from 'rxjs';
 import {TestData} from '../../testData';
 
 export class CategoryDaoArray implements CategoryDAO {
-  add(item: Category): Observable<Category> {
-    return undefined;
+  add(category: Category): Observable<Category> {
+    category.id = this.getLastIdCategory();
+    TestData.categories.push(category);
+    return of(category);
   }
 
   delete(id: number): Observable<Category> {
@@ -36,5 +38,9 @@ export class CategoryDaoArray implements CategoryDAO {
     const tmpCategory = TestData.categories.find(t => t.id === category.id);
     TestData.categories.splice(TestData.categories.indexOf(tmpCategory), 1, category);
     return of(tmpCategory);
+  }
+
+  private getLastIdCategory(): number {
+    return Math.max.apply(Math, TestData.categories.map(category => category.id)) + 1;
   }
 }

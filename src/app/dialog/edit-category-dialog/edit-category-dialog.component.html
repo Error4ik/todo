@@ -2,9 +2,9 @@
   <p mat-dialog-title>{{dialogTitle}}</p>
   <mat-form-field>
     <mat-label>Name (required)</mat-label>
-    <input #inputTitle matInput [(ngModel)]="categoryTitle" (keydown.enter)="onConfirm()">
-    <button *ngIf="categoryTitle.trim().length > 0" mat-button matSuffix mat-icon-button aria-label="Clear"
-            (click)="categoryTitle=''" class="clear-button">
+    <input #inputTitle matInput [(ngModel)]="tmpTitle" (keydown.enter)="onConfirm()">
+    <button *ngIf="tmpTitle.trim().length > 0" mat-button matSuffix mat-icon-button aria-label="Clear"
+            (click)="tmpTitle=''" class="clear-button">
       <mat-icon>clear</mat-icon>
     </button>
   </mat-form-field>
@@ -17,7 +17,7 @@
     </button>
     <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
   </div>
-  <div class="col-md-7 col-12 text-right">
+  <div class="col-md-7 col-12 text-right" *ngIf="!isCanShow()">
     <button mat-button color="warn" (click)="onDelete()">Delete</button>
   </div>
 </mat-dialog-actions>

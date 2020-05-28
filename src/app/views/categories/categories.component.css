@@ -32,3 +32,22 @@
 .category-height {
   height: 50px;
 }
+
+.nav-title {
+  width: 85%;
+  display: inline-block;
+  text-align: center;
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.add-icon-area {
+  width: 15%;
+  display: inline-block;
+  text-align: left;
+}
+
+.add-icon {
+  cursor: pointer;
+  vertical-align: middle;
+}
