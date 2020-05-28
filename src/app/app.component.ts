@@ -29,11 +29,6 @@ export class AppComponent implements OnInit {
     this.onSelectCategory(null);
   }
 
-  private onSelectCategory(category: Category) {
-    this.selectedCategory = category;
-    this.updateTasks();
-  }
-
   private onAddTask(task: Task) {
     this.dataHandlerService.addTask(task).subscribe(() => {
       this.updateTasks();
@@ -53,16 +48,22 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onAddCategory(category: Category) {
+  private onSelectCategory(category: Category) {
+    this.selectedCategory = category;
+    this.updateTasks();
+  }
+
+  private onAddCategory(category: Category) {
     this.dataHandlerService.createCategory(category).subscribe(() => {
       this.onSelectCategory(this.selectedCategory);
     });
   }
 
   private onDeleteCategory(category: Category) {
-    this.dataHandlerService.deleteCategory(category.id).subscribe(() => {
-      this.selectedCategory = null;
-      this.onSelectCategory(this.selectedCategory);
+    this.dataHandlerService.deleteCategory(category.id).subscribe((result) => {
+      if (this.selectedCategory === result) {
+        this.onSelectCategory(null);
+      }
     });
   }
 
