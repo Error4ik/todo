@@ -2,6 +2,7 @@ import {CategoryDAO} from '../interface/CategoryDAO';
 import {Category} from '../../../interfaces/category';
 import {Observable, of} from 'rxjs';
 import {TestData} from '../../testData';
+import {Task} from '../../../interfaces/task';
 
 export class CategoryDaoArray implements CategoryDAO {
   add(category: Category): Observable<Category> {
@@ -27,7 +28,7 @@ export class CategoryDaoArray implements CategoryDAO {
   }
 
   getAll(): Observable<Category[]> {
-    return of(TestData.categories);
+    return of(TestData.categories.sort((c1, c2) => c1.title.localeCompare(c2.title)));
   }
 
   search(title: string): Observable<Category[]> {
@@ -38,6 +39,19 @@ export class CategoryDaoArray implements CategoryDAO {
     const tmpCategory = TestData.categories.find(t => t.id === category.id);
     TestData.categories.splice(TestData.categories.indexOf(tmpCategory), 1, category);
     return of(tmpCategory);
+  }
+
+  categoriesByName(categoryName: string): Observable<Category[]> {
+    return of(this.searchByName(categoryName));
+  }
+
+  private searchByName(categoryName: string): Category[] {
+    let categories: Category[] = TestData.categories;
+    if (categoryName != null) {
+      categories = categories.filter(category => category.title.toLowerCase().includes(categoryName.toLowerCase()))
+        .sort((c1, c2) => c1.title.localeCompare(c2.title));
+    }
+    return categories;
   }
 
   private getLastIdCategory(): number {

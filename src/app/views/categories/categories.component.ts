@@ -2,8 +2,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Category} from '../../interfaces/category';
 import {MatDialog} from '@angular/material';
 import {EditCategoryDialogComponent} from '../../dialog/edit-category-dialog/edit-category-dialog.component';
-import {DataHandlerService} from '../../services/data-handler.service';
-import {Task} from '../../interfaces/task';
 import {OperationType} from '../../dialog/OperationType';
 
 @Component({
@@ -24,10 +22,13 @@ export class CategoriesComponent implements OnInit {
   private updateCategory = new EventEmitter<Category>();
   @Output()
   private createCategory = new EventEmitter<Category>();
+  @Output()
+  private categoryNameFilter = new EventEmitter<string>();
 
   private indexMouseMovie: number;
+  private searchCategoryText: string;
 
-  constructor(private dialog: MatDialog, private dataHandlerService: DataHandlerService) {
+  constructor(private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -68,5 +69,9 @@ export class CategoriesComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.createCategory.emit(result);
     });
+  }
+
+  onFilterByCategoryName() {
+    this.categoryNameFilter.emit(this.searchCategoryText);
   }
 }

@@ -54,4 +54,8 @@ export class DataHandlerService {
   updateCategory(category: Category): Observable<Category> {
     return this.categoryDaoArray.update(category);
   }
+
+  searchCategoriesByName(categoryName: string): Observable<Category[]> {
+    return this.categoryDaoArray.categoriesByName(categoryName);
+  }
 }

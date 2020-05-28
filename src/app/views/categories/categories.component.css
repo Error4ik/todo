@@ -4,7 +4,11 @@
 
 .line {
   border-bottom: 1px solid #dadada;
-  padding-top: 20px;
+  padding-top: 10px;
+}
+
+.nav {
+  margin-top: 10px !important;
 }
 
 .main-category-title {
