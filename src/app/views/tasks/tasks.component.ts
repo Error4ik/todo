@@ -35,11 +35,11 @@ export class TasksComponent implements OnInit, AfterViewInit {
   @Output()
   private selectCategory = new EventEmitter<Category>();
   @Output()
-  private filterByTitle = new EventEmitter();
+  private filterByTitle = new EventEmitter<string>();
   @Output()
-  private filterByStatus = new EventEmitter();
+  private filterByStatus = new EventEmitter<boolean>();
   @Output()
-  private filterPriority = new EventEmitter();
+  private filterPriority = new EventEmitter<Priority>();
 
   @ViewChild(MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) private sort: MatSort;
@@ -156,10 +156,10 @@ export class TasksComponent implements OnInit, AfterViewInit {
     this.filterByTitle.emit(this.searchTaskText);
   }
 
-  private onFilterByStatus(value: boolean) {
-    if (value !== this.selectedStatusFilter) {
+  private onFilterByStatus(status: boolean) {
+    if (status !== this.selectedStatusFilter) {
       this.addTableItems();
-      this.selectedStatusFilter = value;
+      this.selectedStatusFilter = status;
       this.filterByStatus.emit(this.selectedStatusFilter);
     }
   }
