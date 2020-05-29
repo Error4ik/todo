@@ -10,24 +10,26 @@ import {Priority} from './interfaces/priority';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'todo';
-  tasks: Task[];
-  categories: Category[];
-  priorities: Priority[];
+  private title = 'todo';
+  private tasks: Task[];
+  private categories: Category[];
+  private priorities: Priority[];
 
   private selectedCategory: Category = null;
-  private filterByTitle: string;
+
+  private searchTaskByTitle = '';
+  private searchCategoryByTitle = '';
+
   private filterByStatus: boolean;
   private filterPriority: Priority;
-  private filterCategoryByName: string;
 
   constructor(private dataHandlerService: DataHandlerService) {
   }
 
   ngOnInit(): void {
-    this.updateTasks();
-    this.updateCategories();
     this.updatePriorities();
+    this.updateCategories();
+    this.onSelectCategory(null);
   }
 
   private onAddTask(task: Task): void {
@@ -44,21 +46,21 @@ export class AppComponent implements OnInit {
 
   private onDeleteTask(task: Task): void {
     this.dataHandlerService.deleteTask(task.id).subscribe(() => {
-      this.onSelectCategory(this.selectedCategory);
+      this.updateTasks();
     });
   }
 
-  private onFilterByTaskTitle(title: string): void {
-    this.filterByTitle = title;
+  private onSearchTaskByTitle(title: string): void {
+    this.searchTaskByTitle = title;
     this.updateTasks();
   }
 
-  private onFilterByTaskStatus(status: boolean): void {
+  private onFilterTasksByStatus(status: boolean): void {
     this.filterByStatus = status;
     this.updateTasks();
   }
 
-  private onFilterByTaskPriority(priority: Priority): void {
+  private onFilterTasksByPriority(priority: Priority): void {
     this.filterPriority = priority;
     this.updateTasks();
   }
@@ -76,34 +78,37 @@ export class AppComponent implements OnInit {
 
   private onDeleteCategory(category: Category): void {
     this.dataHandlerService.deleteCategory(category.id).subscribe((result) => {
-      if (this.selectedCategory === result) {
-        this.onSelectCategory(null);
+      if (result === this.selectedCategory) {
+        this.selectedCategory = null;
       }
+      this.onSelectCategory(this.selectedCategory);
       this.updateCategories();
     });
   }
 
   private onUpdateCategory(category: Category): void {
     this.dataHandlerService.updateCategory(category).subscribe(() => {
-      this.onFilteredByCategoryName(this.filterCategoryByName);
+      this.onSearchCategoryByTitle(this.searchCategoryByTitle);
     });
   }
 
-  private onFilteredByCategoryName(categoryName: string): void {
-    this.filterCategoryByName = categoryName;
+  private onSearchCategoryByTitle(categoryName: string): void {
+    this.searchCategoryByTitle = categoryName;
     this.dataHandlerService.searchCategoriesByName(categoryName).subscribe(categories => this.categories = categories);
   }
 
   private updateTasks(): void {
-    this.dataHandlerService.searchTasks(this.selectedCategory, this.filterByTitle, this.filterByStatus, this.filterPriority)
-      .subscribe(tasks => this.tasks = tasks);
+    this.dataHandlerService.searchTasks(this.selectedCategory, this.searchTaskByTitle, this.filterByStatus, this.filterPriority)
+      .subscribe((tasks: Task[]) => {
+        this.tasks = tasks;
+      });
   }
 
-  private updateCategories() {
+  private updateCategories(): void {
     this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
   }
 
-  private updatePriorities() {
+  private updatePriorities(): void {
     this.dataHandlerService.getAllPriorities().subscribe(priorities => this.priorities = priorities);
   }
 }

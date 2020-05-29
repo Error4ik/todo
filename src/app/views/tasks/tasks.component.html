@@ -7,8 +7,7 @@
           (keyup)="onFilterByTitle()"
           [(ngModel)]="searchTaskText"
           matInput
-          placeholder="Search in current category"
-      >
+          placeholder="Search in current category">
       <button
         (click)="searchTaskText = ''; onFilterByTitle()"
         *ngIf="filterInput.value.trim().length > 0"
@@ -147,7 +146,7 @@
           <tr *matHeaderRowDef="displayedColumns;" mat-header-row></tr>
           <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[10, 30, 50, 100]"></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[10, 30, 50, 100]" showFirstLastButtons [pageSize]="10"></mat-paginator>
       </div>
       <ng-template #loading>
         <div class="container">

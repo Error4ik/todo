@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Task} from '../../interfaces/task';
 import {MatTableDataSource} from '@angular/material';
 import {MatPaginator} from '@angular/material/paginator';
@@ -15,15 +15,15 @@ import {OperationType} from '../../dialog/OperationType';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnInit, AfterViewInit {
+export class TasksComponent implements OnInit {
 
   private tasks: Task[];
+  private priorities: Priority[];
   private dataSource: MatTableDataSource<Task>;
   public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operations', 'select'];
   private searchTaskText: string;
   private selectedStatusFilter: boolean;
   private selectedPriorityFilter: Priority = null;
-  private priorities: Priority[];
 
   @Output()
   private updateTask = new EventEmitter<Task>();
@@ -62,11 +62,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource<Task>();
-    this.fillTable();
-  }
-
-  ngAfterViewInit(): void {
-    this.addTableItems();
+    this.onSelectCategory(null);
   }
 
   private getPriorityColor(task: Task): string {
@@ -76,7 +72,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
     return task.priority ? task.priority.color : '#fff';
   }
 
-  private fillTable(): string {
+  private fillTable(): void {
     if (!this.dataSource) {
       return;
     }
@@ -107,18 +103,21 @@ export class TasksComponent implements OnInit, AfterViewInit {
       if (result === 'complete') {
         task.completed = !task.completed;
         this.updateTask.emit(task);
+        return;
       }
       if (result === 'activate') {
         task.completed = !task.completed;
         this.updateTask.emit(task);
+        return;
       }
       if (result === 'delete') {
         this.deleteTask.emit(task);
+        return;
       }
       if (result as Task) {
         this.updateTask.emit(task);
+        return;
       }
-      this.addTableItems();
     });
   }
 
@@ -141,23 +140,19 @@ export class TasksComponent implements OnInit, AfterViewInit {
       if (result) {
         this.deleteTask.emit(task);
       }
-      this.addTableItems();
     });
   }
 
   private onSelectCategory(category: Category) {
     this.selectCategory.emit(category);
-    this.addTableItems();
   }
 
   private onFilterByTitle() {
-    this.addTableItems();
     this.filterByTitle.emit(this.searchTaskText);
   }
 
   private onFilterByStatus(status: boolean) {
     if (status !== this.selectedStatusFilter) {
-      this.addTableItems();
       this.selectedStatusFilter = status;
       this.filterByStatus.emit(this.selectedStatusFilter);
     }
@@ -165,7 +160,6 @@ export class TasksComponent implements OnInit, AfterViewInit {
 
   private onFilterByPriority(priority: Priority) {
     if (this.selectedPriorityFilter !== priority) {
-      this.addTableItems();
       this.selectedPriorityFilter = priority;
       this.filterPriority.emit(this.selectedPriorityFilter);
     }
@@ -178,8 +172,9 @@ export class TasksComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.addTask.emit(task);
-      this.addTableItems();
+      if (result) {
+        this.addTask.emit(task);
+      }
     });
   }
 }

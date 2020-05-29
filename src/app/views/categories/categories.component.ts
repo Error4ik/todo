@@ -11,19 +11,19 @@ import {OperationType} from '../../dialog/OperationType';
 })
 export class CategoriesComponent implements OnInit {
   @Input()
-  categories: Category[];
+  private categories: Category[];
   @Input()
-  selectedCategory: Category;
+  private selectedCategory: Category;
   @Output()
-  selectCategory = new EventEmitter<Category>();
+  private selectCategory = new EventEmitter<Category>();
   @Output()
   private deleteCategory = new EventEmitter<Category>();
   @Output()
   private updateCategory = new EventEmitter<Category>();
   @Output()
-  private createCategory = new EventEmitter<Category>();
+  private addCategory = new EventEmitter<Category>();
   @Output()
-  private categoryNameFilter = new EventEmitter<string>();
+  private searchCategory = new EventEmitter<string>();
 
   private indexMouseMovie: number;
   private searchCategoryText: string;
@@ -67,11 +67,11 @@ export class CategoriesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.createCategory.emit(result);
+      this.addCategory.emit(result);
     });
   }
 
   onFilterByCategoryName() {
-    this.categoryNameFilter.emit(this.searchCategoryText);
+    this.searchCategory.emit(this.searchCategoryText);
   }
 }
