@@ -28,7 +28,11 @@ import {TaskDatePipe} from './pipe/task-date.pipe';
 import {registerLocaleData} from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { EditCategoryDialogComponent } from './dialog/edit-category-dialog/edit-category-dialog.component';
+import {EditCategoryDialogComponent} from './dialog/edit-category-dialog/edit-category-dialog.component';
+import {FooterComponent} from './views/footer/footer.component';
+import {AboutDialogComponent} from './dialog/about-dialog/about-dialog.component';
+import { HeaderComponent } from './views/header/header.component';
+import { StatisticsComponent } from './views/statistics/statistics.component';
 
 registerLocaleData(localeRu);
 
@@ -40,7 +44,11 @@ registerLocaleData(localeRu);
     EditTaskDialogComponent,
     ConfirmDialogComponent,
     TaskDatePipe,
-    EditCategoryDialogComponent
+    EditCategoryDialogComponent,
+    FooterComponent,
+    AboutDialogComponent,
+    HeaderComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +69,7 @@ registerLocaleData(localeRu);
     MatCheckboxModule
   ],
   providers: [TaskDaoArray, CategoryDaoArray, PriorityDaoArray],
-  entryComponents: [EditTaskDialogComponent, ConfirmDialogComponent, EditCategoryDialogComponent],
+  entryComponents: [EditTaskDialogComponent, ConfirmDialogComponent, EditCategoryDialogComponent, AboutDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

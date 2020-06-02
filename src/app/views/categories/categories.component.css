@@ -55,3 +55,7 @@
   cursor: pointer;
   vertical-align: middle;
 }
+
+.sidebar-background {
+  background-image: url("../../../assets/img/sidebar-1.jpg") !important;
+}

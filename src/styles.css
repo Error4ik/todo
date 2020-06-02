@@ -22,3 +22,12 @@
 .mat-dialog-actions {
   padding-bottom: 20px !important;
 }
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.clear-button {
+  font-size: 25px !important;
+}

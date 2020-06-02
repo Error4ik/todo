@@ -1,60 +1,63 @@
-<div class="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
-  <div class="logo">
+<div class="sidebar" data-color="purple" data-background-color="white">
+  <div id="categories">
+    <div class="logo">
     <span class="nav-title">
       Categories
     </span>
-    <span class="add-icon-area">
+      <span class="add-icon-area">
       <button mat-icon-button class="add-icon" (click)="openAddCategoryDialog()">
         <mat-icon>add</mat-icon>
       </button>
     </span>
-  </div>
-  <div class="col-12">
-    <mat-form-field>
-      <input
-          #inputSearchCategories
-          (keydown.escape)="searchCategoryText = '' ; onFilterByCategoryName()"
-          (keyup)="onFilterByCategoryName()"
-          [(ngModel)]="searchCategoryText"
-          matInput
-          placeholder="Search category"
-      >
-      <button
-        (click)="searchCategoryText = ''; onFilterByCategoryName()"
-        *ngIf="inputSearchCategories.value.trim().length > 0"
-        aria-label="clear" mat-button matSuffix mat-icon-button
-        class="clear-button clear-icon">
-        <mat-icon>clear</mat-icon>
-      </button>
-    </mat-form-field>
-  </div>
-  <div class="sidebar-wrapper">
-    <ul class="nav">
-      <li class="nav-item pointer" (click)="showTasksByCategory(null)"
-          [class.active]="selectedCategory === null">
-        <a class="nav-link pointer">
-          <span class="main-category-title">Все</span>
-        </a>
-      </li>
-      <li class="line"></li>
-      <li *ngIf="categories.length === 0">
-        <p class="not-found">Not found...</p>
-      </li>
-      <li class="nav-item pointer" *ngFor="let category of categories; let index = index"
-          (click)="showTasksByCategory(category)"
-          [class.active]="category === selectedCategory"
-          (mouseleave)="showEditIcon(null)"
-          (mouseenter)="showEditIcon(index)">
-        <a class="nav-link category-height">
-          <span class="category-title">{{category.title}}</span>
-          <span class="edit-category-icon-area"
-                *ngIf="indexMouseMovie === index">
+    </div>
+    <div class="col-12">
+      <mat-form-field>
+        <input
+            #inputSearchCategories
+            (keydown.escape)="searchCategoryText = '' ; onFilterByCategoryName()"
+            (keyup)="onFilterByCategoryName()"
+            [(ngModel)]="searchCategoryText"
+            matInput
+            placeholder="Search category"
+        >
+        <button
+          (click)="searchCategoryText = ''; onFilterByCategoryName()"
+          *ngIf="inputSearchCategories.value.trim().length > 0"
+          aria-label="clear" mat-button matSuffix mat-icon-button
+          class="clear-button clear-icon">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li class="nav-item pointer" (click)="showTasksByCategory(null)"
+            [class.active]="selectedCategory === null">
+          <a class="nav-link pointer">
+            <span class="main-category-title">Все</span>
+          </a>
+        </li>
+        <li class="line"></li>
+        <li *ngIf="categories.length === 0">
+          <p class="not-found">Not found...</p>
+        </li>
+        <li class="nav-item pointer" *ngFor="let category of categories; let index = index"
+            (click)="showTasksByCategory(category)"
+            [class.active]="category === selectedCategory"
+            (mouseleave)="showEditIcon(null)"
+            (mouseenter)="showEditIcon(index)">
+          <a class="nav-link category-height">
+            <span class="category-title">{{category.title}}</span>
+            <span class="edit-category-icon-area"
+                  *ngIf="indexMouseMovie === index">
             <mat-icon class="edit-category-icon" (click)="$event.stopPropagation(); openEditCategoryDialog(category)">
               edit
             </mat-icon>
           </span>
-        </a>
-      </li>
-    </ul>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-background"></div>
   </div>
 </div>

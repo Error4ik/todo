@@ -71,11 +71,6 @@ table {
   font-weight: bold;
 }
 
-.link {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
 .clear-button {
   font-size: 25px !important;
 }
