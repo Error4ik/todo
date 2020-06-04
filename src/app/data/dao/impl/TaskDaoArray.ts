@@ -27,20 +27,20 @@ export class TaskDaoArray implements TaskDAO {
     return of(TestData.tasks);
   }
 
-  getCompletedCountInCategory(category: Category): Observable<number> {
-    return undefined;
-  }
-
-  getTotalCount(): Observable<number> {
-    return undefined;
-  }
-
   getTotalCountInCategory(category: Category): Observable<number> {
-    return undefined;
+    return of(this.searchTasks(category, null, null, null).length);
+  }
+
+  getCompletedCountInCategory(category: Category): Observable<number> {
+    return of(this.searchTasks(category, null, true, null).length);
   }
 
   getUncompletedCountInCategory(category: Category): Observable<number> {
-    return undefined;
+    return of(this.searchTasks(category, null, false, null).length);
+  }
+
+  getTotalCount(): Observable<number> {
+    return of(TestData.tasks.length);
   }
 
   search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> {

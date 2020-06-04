@@ -58,4 +58,20 @@ export class DataHandlerService {
   searchCategoriesByName(categoryName: string): Observable<Category[]> {
     return this.categoryDaoArray.categoriesByName(categoryName);
   }
+
+  getTotalTasksCountInCategory(selectedCategory: Category): Observable<number> {
+    return this.taskDaoArray.getTotalCountInCategory(selectedCategory);
+  }
+
+  getCompletedCountInCategory(selectedCategory: Category): Observable<number> {
+    return this.taskDaoArray.getCompletedCountInCategory(selectedCategory);
+  }
+
+  getUncompletedCountInCategory(selectedCategory: Category): Observable<number> {
+    return this.taskDaoArray.getUncompletedCountInCategory(selectedCategory);
+  }
+
+  getUncompletedTotalCount(): Observable<number> {
+    return this.taskDaoArray.getUncompletedCountInCategory(null);
+  }
 }

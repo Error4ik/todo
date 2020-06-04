@@ -14,7 +14,11 @@
     </nav>
     <div class="content">
       <div class="container-fluid">
-        <app-statistics></app-statistics>
+        <app-statistics
+        [totalTasksInCategory]="totalTasksCountInCategory"
+        [completedTasksInCategory]="completedTasksCountInCategory"
+        [uncompletedTasksInCategory]="uncompletedTasksCountInCategory">
+        </app-statistics>
         <div class="row">
           <div class="col-12">
             <app-tasks
