@@ -31,3 +31,11 @@
 .clear-button {
   font-size: 25px !important;
 }
+
+app-header {
+  width: 100%;
+}
+
+.main-panel > .content {
+  margin-top: 40px !important;
+}
