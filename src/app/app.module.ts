@@ -31,9 +31,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {EditCategoryDialogComponent} from './dialog/edit-category-dialog/edit-category-dialog.component';
 import {FooterComponent} from './views/footer/footer.component';
 import {AboutDialogComponent} from './dialog/about-dialog/about-dialog.component';
-import { HeaderComponent } from './views/header/header.component';
-import { StatisticsComponent } from './views/statistics/statistics.component';
-import { StatCardComponent } from './views/statistics/stat-card/stat-card.component';
+import {HeaderComponent} from './views/header/header.component';
+import {StatisticsComponent} from './views/statistics/statistics.component';
+import {StatCardComponent} from './views/statistics/stat-card/stat-card.component';
+import {ColorPickerModule} from 'ngx-color-picker';
+import {SettingsDialogComponent} from './dialog/settings-dialog/settings-dialog.component';
+import { PrioritiesComponent } from './views/priorities/priorities.component';
 
 registerLocaleData(localeRu);
 
@@ -50,7 +53,9 @@ registerLocaleData(localeRu);
     AboutDialogComponent,
     HeaderComponent,
     StatisticsComponent,
-    StatCardComponent
+    StatCardComponent,
+    SettingsDialogComponent,
+    PrioritiesComponent
   ],
   imports: [
     BrowserModule,
@@ -68,10 +73,17 @@ registerLocaleData(localeRu);
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    ColorPickerModule
   ],
   providers: [TaskDaoArray, CategoryDaoArray, PriorityDaoArray],
-  entryComponents: [EditTaskDialogComponent, ConfirmDialogComponent, EditCategoryDialogComponent, AboutDialogComponent],
+  entryComponents: [
+    EditTaskDialogComponent,
+    ConfirmDialogComponent,
+    EditCategoryDialogComponent,
+    AboutDialogComponent,
+    SettingsDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
