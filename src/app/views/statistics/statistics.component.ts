@@ -7,11 +7,13 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class StatisticsComponent implements OnInit {
   @Input()
-  completedTasksInCategory: number;
+  private completedTasksInCategory: number;
   @Input()
-  totalTasksInCategory: number;
+  private totalTasksInCategory: number;
   @Input()
-  uncompletedTasksInCategory: number;
+  private uncompletedTasksInCategory: number;
+  @Input()
+  private canShowStatistics: boolean;
 
   constructor() {
   }

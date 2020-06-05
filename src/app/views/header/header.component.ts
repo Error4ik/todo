@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +7,11 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   @Input()
-  categoryName: string;
+  private categoryName: string;
+  @Input()
+  private canShowStatistics: boolean;
+  @Output()
+  private toggleStatistics = new EventEmitter<boolean>();
 
   constructor() {
   }
@@ -15,4 +19,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  private onToggleStatistics() {
+    this.toggleStatistics.emit(!this.canShowStatistics);
+  }
 }
