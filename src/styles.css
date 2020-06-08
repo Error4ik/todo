@@ -39,3 +39,7 @@ app-header {
 .main-panel > .content {
   margin-top: 40px !important;
 }
+
+.pointer {
+  cursor: pointer;
+}

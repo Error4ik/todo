@@ -45,10 +45,6 @@ table {
   width: 100%;
 }
 
-.pointer {
-  cursor: pointer;
-}
-
 .delete-icon {
   cursor: pointer;
   color: #ea6561;
