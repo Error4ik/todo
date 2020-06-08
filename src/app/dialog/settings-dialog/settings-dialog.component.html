@@ -2,9 +2,12 @@
   <p class="settings-title with-subtitle" mat-dialog-title>Settings priority.</p>
   <p class="title subtitle">When you change the color, the color will change in the table.</p>
   <app-priorities
-  [priorities]="priorities">
+  [priorities]="priorities"
+  (deletePriority)="onDeletePriority($event)"
+  (editPriority)="onEditPriority($event)"
+  (addPriority)="onAddPriority($event)">
   </app-priorities>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="onCLose()">Close</button>
+  <button mat-raised-button color="accent" (click)="onCLose()">Close</button>
 </mat-dialog-actions>

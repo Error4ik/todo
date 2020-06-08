@@ -24,6 +24,14 @@ export class SettingsDialogComponent implements OnInit {
   }
 
   private onAddPriority(priority: Priority) {
-    console.log('add priority', priority);
+    this.dataHandlerService.addPriority(priority);
+  }
+
+  private onDeletePriority(priority: Priority) {
+    this.dataHandlerService.deletePriority(priority);
+  }
+
+  private onEditPriority(priority: Priority) {
+    this.dataHandlerService.editPriority(priority);
   }
 }
