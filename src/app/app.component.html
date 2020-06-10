@@ -6,7 +6,9 @@
     (addCategory)="onAddCategory($event)"
     (searchCategory)="onSearchCategoryByTitle($event)"
     [selectedCategory]="selectedCategory"
-    [categories]="categories">
+    [categories]="categories"
+    [categoryMap]="categoryMap"
+    [uncompletedTotal]="uncompletedTotalTasksCount">
   </app-categories>
   <div class="main-panel">
     <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">

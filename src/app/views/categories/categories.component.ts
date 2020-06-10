@@ -14,6 +14,8 @@ export class CategoriesComponent implements OnInit {
   private categories: Category[];
   @Input()
   private selectedCategory: Category;
+  @Input()
+  private uncompletedTotal: number;
   @Output()
   private selectCategory = new EventEmitter<Category>();
   @Output()
@@ -25,8 +27,14 @@ export class CategoriesComponent implements OnInit {
   @Output()
   private searchCategory = new EventEmitter<string>();
 
-  private indexMouseMovie: number;
+  @Input('categoryMap')
+  set setCategoryMap(categoryMap: Map<Category, number>) {
+    this.selectedCategoryMap = categoryMap;
+  }
+
+  private indexMouseMove: number;
   private searchCategoryText: string;
+  private selectedCategoryMap = new Map<Category, number>();
 
   constructor(private dialog: MatDialog) {
   }
@@ -44,7 +52,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   private showEditIcon(index: number) {
-    this.indexMouseMovie = index;
+    this.indexMouseMove = index;
   }
 
   openEditCategoryDialog(category: Category) {

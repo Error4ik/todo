@@ -4,6 +4,7 @@ import {DataHandlerService} from './services/data-handler.service';
 import {Category} from './interfaces/category';
 import {Priority} from './interfaces/priority';
 import {zip} from 'rxjs';
+import {concatMap, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import {zip} from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  private categoryMap = new Map<Category, number>();
   private title = 'todo';
   private tasks: Task[];
   private categories: Category[];
@@ -40,19 +42,35 @@ export class AppComponent implements OnInit {
   }
 
   private onAddTask(task: Task): void {
-    this.dataHandlerService.addTask(task).subscribe(() => {
-      this.updateTasksAndStatistics();
-    });
-  }
-
-  private onUpdateTask(task: Task): void {
-    this.dataHandlerService.updateTask(task).subscribe(() => {
+    this.dataHandlerService.addTask(task)
+      .pipe(concatMap(item => {
+          return this.dataHandlerService.getUncompletedCountInCategory(item.category)
+            .pipe(map(count => {
+              return ({item, count});
+            }));
+        }
+      )).subscribe(result => {
+      const task1 = result.item as Task;
+      if (task1.category) {
+        this.categoryMap.set(task1.category, result.count);
+      }
       this.updateTasksAndStatistics();
     });
   }
 
   private onDeleteTask(task: Task): void {
-    this.dataHandlerService.deleteTask(task.id).subscribe(() => {
+    this.dataHandlerService.deleteTask(task.id)
+      .pipe(concatMap(item => {
+          return this.dataHandlerService.getUncompletedCountInCategory(item.category)
+            .pipe(map(count => {
+              return ({item, count});
+            }));
+        }
+      )).subscribe(result => {
+      const task1 = result.item as Task;
+      if (task1.category) {
+        this.categoryMap.set(task1.category, result.count);
+      }
       this.updateTasksAndStatistics();
     });
   }
@@ -88,6 +106,7 @@ export class AppComponent implements OnInit {
       if (result === this.selectedCategory) {
         this.selectedCategory = null;
       }
+      this.categoryMap.delete(category);
       this.onSelectCategory(this.selectedCategory);
       this.updateCategories();
     });
@@ -114,6 +133,14 @@ export class AppComponent implements OnInit {
 
   private updateCategories(): void {
     this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
+    if (this.categoryMap) {
+      this.categoryMap.clear();
+    }
+
+    this.categories = this.categories.sort((a, b) => a.title.localeCompare(b.title));
+    this.categories.forEach(cat => {
+      this.dataHandlerService.getUncompletedCountInCategory(cat).subscribe(count => this.categoryMap.set(cat, count));
+    });
   }
 
   private updatePriorities(): void {
@@ -131,6 +158,13 @@ export class AppComponent implements OnInit {
       this.completedTasksCountInCategory = array[1];
       this.uncompletedTasksCountInCategory = array[2];
       this.uncompletedTotalTasksCount = array[3];
+    });
+  }
+
+  private onUpdateTask(task: Task): void {
+    this.dataHandlerService.updateTask(task).subscribe(() => {
+      this.updateCategories();
+      this.updateTasksAndStatistics();
     });
   }
 
