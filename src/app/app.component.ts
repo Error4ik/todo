@@ -173,4 +173,8 @@ export class AppComponent implements OnInit {
   private toggleStatistics(showStat: boolean) {
     this.canShowStatistics = showStat;
   }
+
+  private onHelpIntro(value: boolean) {
+    this.introService.startIntroJS(value);
+  }
 }

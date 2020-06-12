@@ -14,6 +14,8 @@ export class HeaderComponent implements OnInit {
   private canShowStatistics: boolean;
   @Output()
   private toggleStatistics = new EventEmitter<boolean>();
+  @Output()
+  private helpIntro = new EventEmitter<any>();
 
   constructor(private dialog: MatDialog) {
   }
@@ -25,10 +27,14 @@ export class HeaderComponent implements OnInit {
     this.toggleStatistics.emit(!this.canShowStatistics);
   }
 
-  showSettings() {
+  private showSettings() {
     this.dialog.open(SettingsDialogComponent, {
       autoFocus: false,
       width: '600px'
     });
+  }
+
+  private showIntroHelp() {
+    this.helpIntro.emit(false);
   }
 }
