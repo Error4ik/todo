@@ -18,7 +18,7 @@
 }
 
 .col-title {
-  width: 55%;
+  width: 40%;
 }
 
 .col-date {
@@ -62,11 +62,48 @@ table {
 }
 
 .mat-header-cell {
-  font-size: 1.2rem;
-  color: #000000;
+  font-size: 1.063rem;
+  color: #9c27b0 !important;
   font-weight: bold;
 }
 
 .clear-button {
   font-size: 25px !important;
 }
+
+
+/*=====================*/
+
+/*.col-id {*/
+/*  width: 4%;*/
+/*  text-align: center;*/
+/*}*/
+
+/*.col-title {*/
+/*  width: 40%;*/
+/*}*/
+
+/*.col-priority {*/
+/*  width: 10%;*/
+/*}*/
+
+/*.col-category {*/
+/*  width: 10%;*/
+/*}*/
+
+
+/*.col-select {*/
+/*  width: 3%;*/
+/*}*/
+
+/*.col-operations {*/
+/*  width: 8%;*/
+/*}*/
+
+/*.col-color {*/
+/*  width: 1% !important;*/
+/*}*/
+
+/*.col-date {*/
+/*  width: 10% !important;*/
+/*}*/

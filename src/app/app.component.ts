@@ -33,6 +33,11 @@ export class AppComponent implements OnInit {
   private uncompletedTotalTasksCount: number;
   private canShowStatistics = true;
 
+  private menuOpened: boolean;
+  menuMode: string;
+  menuPosition: string;
+  showBackdrop: boolean;
+
   constructor(private dataHandlerService: DataHandlerService, private introService: IntroService) {
   }
 
@@ -41,6 +46,7 @@ export class AppComponent implements OnInit {
     this.updateCategories();
     this.onSelectCategory(null);
     this.introService.startIntroJS(true);
+    this.setMenuValue();
   }
 
   private onAddTask(task: Task): void {
@@ -176,5 +182,20 @@ export class AppComponent implements OnInit {
 
   private onHelpIntro(value: boolean) {
     this.introService.startIntroJS(value);
+  }
+
+  private setMenuValue() {
+    this.menuPosition = 'left';
+    this.menuOpened = true;
+    this.menuMode = 'push';
+    this.showBackdrop = false;
+  }
+
+  private toggleMenu() {
+    this.menuOpened = !this.menuOpened;
+  }
+
+  private onClosedMenu() {
+    this.menuOpened = false;
   }
 }
