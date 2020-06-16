@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {SettingsDialogComponent} from '../../dialog/settings-dialog/settings-dialog.component';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +20,10 @@ export class HeaderComponent implements OnInit {
   @Output()
   private toggleMenu = new EventEmitter();
 
-  constructor(private dialog: MatDialog) {
+  private isMobile: boolean;
+
+  constructor(private dialog: MatDialog, private deviceService: DeviceDetectorService) {
+    this.isMobile = this.deviceService.isMobile();
   }
 
   ngOnInit() {

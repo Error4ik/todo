@@ -3,6 +3,7 @@ import {Category} from '../../interfaces/category';
 import {MatDialog} from '@angular/material';
 import {EditCategoryDialogComponent} from '../../dialog/edit-category-dialog/edit-category-dialog.component';
 import {OperationType} from '../../dialog/OperationType';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-categories',
@@ -26,6 +27,8 @@ export class CategoriesComponent implements OnInit {
   private addCategory = new EventEmitter<Category>();
   @Output()
   private searchCategory = new EventEmitter<string>();
+  private isMobile: boolean;
+  private isTablet: boolean;
 
   @Input('categoryMap')
   set setCategoryMap(categoryMap: Map<Category, number>) {
@@ -36,7 +39,9 @@ export class CategoriesComponent implements OnInit {
   private searchCategoryText: string;
   private selectedCategoryMap = new Map<Category, number>();
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private deviceService: DeviceDetectorService) {
+    this.isMobile = this.deviceService.isMobile();
+    this.isTablet = this.deviceService.isTablet();
   }
 
   ngOnInit() {

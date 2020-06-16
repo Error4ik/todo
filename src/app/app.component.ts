@@ -6,6 +6,7 @@ import {Priority} from './interfaces/priority';
 import {zip} from 'rxjs';
 import {concatMap, map} from 'rxjs/operators';
 import {IntroService} from './services/intro.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-root',
@@ -34,19 +35,30 @@ export class AppComponent implements OnInit {
   private canShowStatistics = true;
 
   private menuOpened: boolean;
-  menuMode: string;
-  menuPosition: string;
-  showBackdrop: boolean;
+  private menuMode: string;
+  private menuPosition: string;
+  private showBackdrop: boolean;
 
-  constructor(private dataHandlerService: DataHandlerService, private introService: IntroService) {
+  private isMobile: boolean;
+  private isTablet: boolean;
+
+  constructor(
+    private dataHandlerService: DataHandlerService,
+    private introService: IntroService,
+    private deviseService: DeviceDetectorService) {
+    this.isMobile = this.deviseService.isMobile();
+    this.isTablet = this.deviseService.isTablet();
+    this.canShowStatistics = !this.isMobile ? true : false;
   }
 
   ngOnInit(): void {
     this.updatePriorities();
     this.updateCategories();
     this.onSelectCategory(null);
-    this.introService.startIntroJS(true);
     this.setMenuValue();
+    if (!this.isMobile && !this.isTablet) {
+      this.introService.startIntroJS(true);
+    }
   }
 
   private onAddTask(task: Task): void {
@@ -186,9 +198,15 @@ export class AppComponent implements OnInit {
 
   private setMenuValue() {
     this.menuPosition = 'left';
-    this.menuOpened = true;
-    this.menuMode = 'push';
-    this.showBackdrop = false;
+    if (this.isMobile) {
+      this.menuOpened = false;
+      this.menuMode = 'over';
+      this.showBackdrop = true;
+    } else {
+      this.menuOpened = true;
+      this.menuMode = 'push';
+      this.showBackdrop = false;
+    }
   }
 
   private toggleMenu() {
