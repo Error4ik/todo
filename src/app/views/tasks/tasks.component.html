@@ -75,7 +75,7 @@
     </div>
   </div>
   <div class="col-12">
-    <div class="card">
+    <div class="card" *ngIf="!isMobile; else mobile">
       <div class="card-header card-header-warning">
         <h4 class="card-title">Task list</h4>
       </div>
@@ -148,11 +148,62 @@
         </table>
         <mat-paginator [pageSizeOptions]="[10, 30, 50, 100]" showFirstLastButtons [pageSize]="10"></mat-paginator>
       </div>
-      <ng-template #loading>
-        <div class="container">
-          <p class="not-found">The task list is empty...</p>
-        </div>
-      </ng-template>
     </div>
+
+    <ng-template #mobile>
+      <div *ngIf="tasks && tasks.length > 0; else loading">
+        <div *ngFor="let task of tasks; let index = index;"
+             [ngClass]="{'mobile-completed': task.completed}">
+          <div class="card card-mobile" (click)="$event.stopPropagation(); editTaskDialog(task)"
+               [ngClass]="{'background-completed': task.completed}">
+            <div class="mobile-priority-top" [ngClass]="{'background-completed': task.completed}"
+                 [style.background-color]="getPriorityColor(task)">
+            </div>
+            <div class="row">
+              <div class="mobile-title-inner col-9 col-md-10 align-top">
+                <div [class.mobile-completed]="task.completed" class="mobile-title">
+                  {{task.title}}
+                </div>
+              </div>
+              <div class="col-2 col-md-1 align-top mobile-check text-right">
+                <button class="nowidth" (click)="$event.stopPropagation(); onToggleStatus(task)" *ngIf="!task.completed"
+                        mat-icon-button>
+                  <mat-icon class="check-icon-not-completed" (click)="$event.stopPropagation(); onToggleStatus(task)">
+                    check_circle_outline
+                  </mat-icon>
+                </button>
+                <button class="no-width" (click)="$event.stopPropagation(); onToggleStatus(task)" *ngIf="task.completed"
+                        mat-icon-button>
+                  <mat-icon class="check-icon-completed">check_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="mobile-info-inner  col-12 align-top">
+                <div [ngClass]="{'mobile-completed': task.completed}" class="mobile-category">
+                  <p [ngClass]="{'category': !task.completed && task.category}">
+                    {{task.category ? task.category.title : 'Без категории'}}
+                  </p>
+                </div>
+                <div *ngIf="task.priority" class="mobile-priority">
+                  <p [ngClass]="{'priority': !task.completed, 'mobile-completed': task.completed}"
+                     [style.background-color]="getPriorityColor(task)">
+                    {{task.priority.title}}
+                  </p>
+                </div>
+                <div [ngClass]="{'mobile-completed': task.completed}" class="mobile-date">
+                  {{task.date | taskDate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
+  <ng-template #loading>
+    <div class="container">
+      <p class="not-found">The task list is empty...</p>
+    </div>
+  </ng-template>
 </div>

@@ -140,7 +140,7 @@ export class AppComponent implements OnInit {
 
   private onSearchCategoryByTitle(categoryName: string): void {
     this.searchCategoryByTitle = categoryName;
-    this.dataHandlerService.searchCategoriesByName(categoryName).subscribe(categories => this.categories = categories);
+    this.updateCategories();
   }
 
   private updateTasksAndStatistics(): void {
@@ -152,7 +152,7 @@ export class AppComponent implements OnInit {
   }
 
   private updateCategories(): void {
-    this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
+    this.dataHandlerService.searchCategoriesByName(this.searchCategoryByTitle).subscribe(categories => this.categories = categories);
     if (this.categoryMap) {
       this.categoryMap.clear();
     }

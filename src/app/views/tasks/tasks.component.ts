@@ -9,6 +9,7 @@ import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog
 import {Category} from '../../interfaces/category';
 import {Priority} from '../../interfaces/priority';
 import {OperationType} from '../../dialog/OperationType';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-tasks',
@@ -48,16 +49,17 @@ export class TasksComponent implements OnInit {
     this.tasks = tasks;
     this.fillTable();
   }
-
   @Input('priorities')
   private set setPriorities(priorities: Priority[]) {
     this.priorities = priorities;
   }
-
   @Input()
   private selectedCategory: Category;
 
-  constructor(private dialog: MatDialog) {
+  private isMobile: boolean;
+
+  constructor(private dialog: MatDialog, private deviceService: DeviceDetectorService) {
+    this.isMobile = this.deviceService.isMobile();
   }
 
   ngOnInit() {
