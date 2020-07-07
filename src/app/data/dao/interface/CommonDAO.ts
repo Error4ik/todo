@@ -3,9 +3,9 @@ import {Observable} from 'rxjs';
 export interface CommonDAO<T> {
   add(item: T): Observable<T>;
 
-  get(id: number): Observable<T>;
+  get(id: string): Observable<T>;
 
-  delete(id: number): Observable<T>;
+  delete(id: string): Observable<T>;
 
   update(item: T): Observable<T>;
 

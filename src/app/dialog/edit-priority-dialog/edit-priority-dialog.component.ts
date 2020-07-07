@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {OperationType} from '../OperationType';
-import {Priority} from '../../interfaces/priority';
+import {Priority} from '../../domain/Priority';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 
 @Component({

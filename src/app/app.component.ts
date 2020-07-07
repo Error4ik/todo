@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Task} from './interfaces/task';
+import {Task} from './domain/Task';
 import {DataHandlerService} from './services/data-handler.service';
-import {Category} from './interfaces/category';
-import {Priority} from './interfaces/priority';
+import {Category} from './domain/Category';
+import {Priority} from './domain/Priority';
 import {zip} from 'rxjs';
 import {concatMap, map} from 'rxjs/operators';
 import {IntroService} from './services/intro.service';

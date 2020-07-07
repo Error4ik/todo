@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 import {OperationType} from '../OperationType';
-import {Category} from '../../interfaces/category';
+import {Category} from '../../domain/Category';
 
 @Component({
   selector: 'app-edit-category-dialog',

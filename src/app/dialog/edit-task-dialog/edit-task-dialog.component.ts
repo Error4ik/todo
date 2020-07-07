@@ -1,10 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {Task} from 'src/app/interfaces/task';
+import {Task} from 'src/app/domain/Task';
 import {DataHandlerService} from '../../services/data-handler.service';
-import {Category} from '../../interfaces/category';
-import {Priority} from '../../interfaces/priority';
+import {Category} from '../../domain/Category';
+import {Priority} from '../../domain/Priority';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 import {OperationType} from '../OperationType';
 

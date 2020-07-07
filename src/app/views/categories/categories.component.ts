@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Category} from '../../interfaces/category';
+import {Category} from '../../domain/Category';
 import {MatDialog} from '@angular/material';
 import {EditCategoryDialogComponent} from '../../dialog/edit-category-dialog/edit-category-dialog.component';
 import {OperationType} from '../../dialog/OperationType';

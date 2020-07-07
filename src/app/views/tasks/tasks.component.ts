@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Task} from '../../interfaces/task';
+import {Task} from '../../domain/Task';
 import {MatTableDataSource} from '@angular/material';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
-import {Category} from '../../interfaces/category';
-import {Priority} from '../../interfaces/priority';
+import {Category} from '../../domain/Category';
+import {Priority} from '../../domain/Priority';
 import {OperationType} from '../../dialog/OperationType';
 import {DeviceDetectorService} from 'ngx-device-detector';
 

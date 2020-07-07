@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {TaskDaoArray} from '../data/dao/impl/TaskDaoArray';
 import {CategoryDaoArray} from '../data/dao/impl/CategoryDaoArray';
-import {Category} from '../interfaces/category';
-import {Priority} from '../interfaces/priority';
+import {Category} from '../domain/Category';
+import {Priority} from '../domain/Priority';
 import {Observable, of} from 'rxjs';
-import {Task} from '../interfaces/task';
+import {Task} from '../domain/Task';
 import {PriorityDaoArray} from '../data/dao/impl/PriorityDaoArray';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class DataHandlerService {
   }
 
   searchTasks(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> {
-    return this.taskDaoArray.search(category, searchText, status, priority);
+    return this.taskDaoArray.findTasks(category, searchText, status, priority);
   }
 
   addTask(task: Task): Observable<Task> {
