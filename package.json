@@ -26,6 +26,7 @@
     "ng-sidebar": "^9.3.0",
     "ngx-color-picker": "^9.1.0",
     "ngx-device-detector": "^1.4.5",
+    "npm-registry-fetch": "^8.1.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
