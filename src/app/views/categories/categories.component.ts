@@ -30,14 +30,8 @@ export class CategoriesComponent implements OnInit {
   private isMobile: boolean;
   private isTablet: boolean;
 
-  @Input('categoryMap')
-  set setCategoryMap(categoryMap: Map<Category, number>) {
-    this.selectedCategoryMap = categoryMap;
-  }
-
   private indexMouseMove: number;
   private searchCategoryText: string;
-  private selectedCategoryMap = new Map<Category, number>();
 
   constructor(private dialog: MatDialog, private deviceService: DeviceDetectorService) {
     this.isMobile = this.deviceService.isMobile();
