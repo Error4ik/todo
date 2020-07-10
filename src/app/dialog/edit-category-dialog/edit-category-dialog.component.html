@@ -1,5 +1,5 @@
 <mat-dialog-content>
-  <p mat-dialog-title>{{dialogTitle}}</p>
+  <p mat-dialog-title class="text-center">{{dialogTitle}}</p>
   <mat-form-field>
     <mat-label>Name (required)</mat-label>
     <input #inputTitle matInput [(ngModel)]="tmpTitle" (keydown.enter)="onConfirm()">
@@ -17,7 +17,7 @@
     </button>
     <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
   </div>
-  <div class="col-md-7 col-12 text-right" *ngIf="!isCanShow()">
+  <div class="col-md-7 col-12 text-right" *ngIf="isCanShow()">
     <button mat-button color="warn" (click)="onDelete()">Delete</button>
   </div>
 </mat-dialog-actions>

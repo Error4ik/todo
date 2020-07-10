@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Category} from '../../domain/Category';
 import {MatDialog} from '@angular/material';
 import {EditCategoryDialogComponent} from '../../dialog/edit-category-dialog/edit-category-dialog.component';
-import {OperationType} from '../../dialog/OperationType';
+import {DialogAction} from '../../dialog/DialogResult';
 import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
@@ -54,27 +54,38 @@ export class CategoriesComponent implements OnInit {
     this.indexMouseMove = index;
   }
 
-  openEditCategoryDialog(category: Category) {
+  private openAddCategoryDialog() {
+    const category = new Category(null, '');
+    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
+      data: [category, 'Create category'], width: '500px', autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      if (result.action === DialogAction.SAVE) {
+        this.addCategory.emit(result.object);
+      }
+    });
+  }
+
+  private openEditCategoryDialog(category: Category) {
     const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
       data: [category, 'Edit category'], width: '500px', autoFocus: false
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result as 'string' && result === 'delete') {
+      if (!result) {
+        return;
+      }
+      if (result.action === DialogAction.DELETE) {
         this.deleteCategory.emit(category);
         return;
       }
-      this.updateCategory.emit(category);
-    });
-  }
-
-  private openAddCategoryDialog() {
-    const category = new Category(null, '');
-    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
-      data: [category, 'Create category', OperationType.ADD], width: '500px', autoFocus: false
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.addCategory.emit(result);
+      if (result.action === DialogAction.SAVE) {
+        this.updateCategory.emit(category);
+        return;
+      }
     });
   }
 

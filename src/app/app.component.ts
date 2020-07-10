@@ -14,7 +14,6 @@ import {CategoryService} from './data/dao/impl/category.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  private categoryMap = new Map<Category, number>();
   private title = 'todo';
   private tasks: Task[];
   private categories: Category[];
@@ -48,7 +47,7 @@ export class AppComponent implements OnInit {
     private deviseService: DeviceDetectorService) {
     this.isMobile = this.deviseService.isMobile();
     this.isTablet = this.deviseService.isTablet();
-    this.canShowStatistics = !this.isMobile ? true : false;
+    this.canShowStatistics = !this.isMobile;
   }
 
   ngOnInit(): void {
@@ -95,6 +94,13 @@ export class AppComponent implements OnInit {
     // });
   }
 
+  private onUpdateTask(task: Task): void {
+    // this.dataHandlerService.updateTask(task).subscribe(() => {
+    //   this.updateCategories();
+    //   this.updateTasksAndStatistics();
+    // });
+  }
+
   private onSearchTaskByTitle(title: string): void {
     this.searchTaskByTitle = title;
     this.updateTasksAndStatistics();
@@ -116,26 +122,21 @@ export class AppComponent implements OnInit {
   }
 
   private onAddCategory(category: Category): void {
-    // this.dataHandlerService.createCategory(category).subscribe(() => {
-    //   this.updateCategories();
-    // });
+    this.categoryService.add(category).subscribe(() => {
+      this.updateCategories();
+    });
   }
 
   private onDeleteCategory(category: Category): void {
-    // this.dataHandlerService.deleteCategory(category.id).subscribe((result) => {
-    //   if (result === this.selectedCategory) {
-    //     this.selectedCategory = null;
-    //   }
-    //   this.categoryMap.delete(category);
-    //   this.onSelectCategory(this.selectedCategory);
-    //   this.updateCategories();
-    // });
+    this.categoryService.delete(category.id.toString()).subscribe(() => {
+      this.updateCategories();
+    });
   }
 
   private onUpdateCategory(category: Category): void {
-    // this.dataHandlerService.updateCategory(category).subscribe(() => {
-    //   this.onSearchCategoryByTitle(this.searchCategoryByTitle);
-    // });
+    this.categoryService.update(category).subscribe(() => {
+      this.updateCategories();
+    });
   }
 
   private onSearchCategoryByTitle(categoryName: string): void {
@@ -172,13 +173,6 @@ export class AppComponent implements OnInit {
     //   this.completedTasksCountInCategory = array[1];
     //   this.uncompletedTasksCountInCategory = array[2];
     //   this.uncompletedTotalTasksCount = array[3];
-    // });
-  }
-
-  private onUpdateTask(task: Task): void {
-    // this.dataHandlerService.updateTask(task).subscribe(() => {
-    //   this.updateCategories();
-    //   this.updateTasksAndStatistics();
     // });
   }
 
