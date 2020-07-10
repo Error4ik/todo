@@ -14,18 +14,24 @@
       <li class="search-category-area">
         <mat-form-field class="example-full-width">
           <input
-              #inputSearchCategories
-              (keydown.escape)="searchCategoryText = '' ; onFilterByCategoryName()"
-              (keyup)="onFilterByCategoryName()"
-              [(ngModel)]="searchCategoryText"
+              (keydown.escape)="filterTitle = '' ; onFilterByCategoryName()"
+              (keydown.enter)="onFilterByCategoryName()"
+              (keyup)="checkTitle()"
+              [(ngModel)]="filterTitle"
               matInput
               placeholder="Search category">
           <button
-            (click)="searchCategoryText = ''; onFilterByCategoryName()"
-            *ngIf="inputSearchCategories.value.trim().length > 0"
+            *ngIf="filterTitle && filterTitle.trim().length > 0"
+            (click)="clearAndSearch()"
             aria-label="clear" mat-button matSuffix mat-icon-button
             class="search-category-button">
             <mat-icon>clear</mat-icon>
+          </button>
+          <button
+            *ngIf="filterTitle && filterTitle.trim().length > 0"
+            mat-button matSuffix mat-icon-button
+            (click)="onFilterByCategoryName()">
+            <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
       </li>

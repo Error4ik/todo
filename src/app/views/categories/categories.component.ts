@@ -31,7 +31,7 @@ export class CategoriesComponent implements OnInit {
   private isTablet: boolean;
 
   private indexMouseMove: number;
-  private searchCategoryText: string;
+  private filterTitle = '';
 
   constructor(private dialog: MatDialog, private deviceService: DeviceDetectorService) {
     this.isMobile = this.deviceService.isMobile();
@@ -78,7 +78,18 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  onFilterByCategoryName() {
-    this.searchCategory.emit(this.searchCategoryText);
+  private onFilterByCategoryName() {
+    this.searchCategory.emit(this.filterTitle);
+  }
+
+  private clearAndSearch() {
+    this.filterTitle = null;
+    this.onFilterByCategoryName();
+  }
+
+  private checkTitle() {
+    if (this.filterTitle === '') {
+      this.onFilterByCategoryName();
+    }
   }
 }

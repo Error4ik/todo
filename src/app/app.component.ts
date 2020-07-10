@@ -22,8 +22,8 @@ export class AppComponent implements OnInit {
 
   private selectedCategory: Category = null;
 
-  private searchTaskByTitle = '';
-  private searchCategoryByTitle = '';
+  private searchTaskByTitle: string;
+  private searchCategoryByTitle: string;
 
   private filterByStatus: boolean;
   private filterPriority: Priority;
@@ -152,21 +152,8 @@ export class AppComponent implements OnInit {
   }
 
   private updateCategories(): void {
-    // this.dataHandlerService.searchCategoriesByName(this.searchCategoryByTitle).subscribe(categories => this.categories = categories);
-    // if (this.categoryMap) {
-    //   this.categoryMap.clear();
-    // }
-
-    // this.categories = this.categories.sort((a, b) => a.title.localeCompare(b.title));
-    // this.categories.forEach(cat => {
-    //   // this.dataHandlerService.getUncompletedCountInCategory(cat).subscribe(count => this.categoryMap.set(cat, count));
-    // });
-
-    this.categoryService.getAll().subscribe(categories => {
+    this.categoryService.findCategories(this.searchCategoryByTitle).subscribe(categories => {
       this.categories = categories;
-      categories.forEach(category => {
-        this.uncompletedTotalTasksCount += category.uncompletedCount;
-      });
     });
   }
 
