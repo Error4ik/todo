@@ -4,7 +4,7 @@ export class SearchParams {
   priority: string = null;
   category: string = null;
   pageNumber = 0;
-  pageSize = 5;
+  pageLimit = 10;
   sortColumn = 'title';
   sortDirection = 'asc';
 }

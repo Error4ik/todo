@@ -5,7 +5,7 @@ import {Task} from 'src/app/domain/Task';
 import {Category} from '../../domain/Category';
 import {Priority} from '../../domain/Priority';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
-import {OperationType} from '../OperationType';
+import {DialogAction, DialogResult} from '../DialogResult';
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -17,44 +17,44 @@ export class EditTaskDialogComponent implements OnInit {
   private dialogTitle: string;
   private task: Task;
   private tmpTitle: string;
-  private categories: Category[];
   private tmpCategory: Category;
-  protected priorities: Priority[];
   private tmpPriority: Priority;
   private tmpDate: Date;
-  private operationType: OperationType;
+  private categories: Category[];
+  protected priorities: Priority[];
+  private canShow: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<EditTaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: [Task, string, OperationType],
+    @Inject(MAT_DIALOG_DATA) private data: [Task, string, Category[], Priority[]],
     private dialog: MatDialog) {
   }
 
   ngOnInit() {
     this.task = this.data[0];
     this.dialogTitle = this.data[1];
-    this.operationType = this.data[2];
+    this.categories = this.data[2];
+    this.priorities = this.data[3];
     this.tmpTitle = this.task.title;
     this.tmpCategory = this.task.category;
     this.tmpPriority = this.task.priority;
     this.tmpDate = this.task.date;
-    // this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
-    // this.dataHandlerService.getAllPriorities().subscribe(priorities => this.priorities = priorities);
   }
 
-  onConfirm(): void {
+  private onConfirm(): void {
     this.task.title = this.tmpTitle;
     this.task.category = this.tmpCategory;
     this.task.priority = this.tmpPriority;
     this.task.date = this.tmpDate;
-    this.dialogRef.close(this.task);
+
+    this.dialogRef.close(new DialogResult(DialogAction.SAVE, this.task));
   }
 
-  onCancel(): void {
-    this.dialogRef.close(null);
+  private onCancel(): void {
+    this.dialogRef.close(new DialogResult(DialogAction.CANCEL));
   }
 
-  onDelete() {
+  private onDelete() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: '500px',
       data: {
@@ -66,20 +66,20 @@ export class EditTaskDialogComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dialogRef.close('delete');
+        this.dialogRef.close(new DialogResult(DialogAction.DELETE));
       }
     });
   }
 
   private activateTask() {
-    this.dialogRef.close('complete');
+    this.dialogRef.close(new DialogResult(DialogAction.ACTIVATE));
   }
 
   private completeTask() {
-    this.dialogRef.close('activate');
+    this.dialogRef.close(new DialogResult(DialogAction.COMPLETE));
   }
 
   private isCanShow(): boolean {
-    return this.operationType === OperationType.ADD;
+    return this.canShow;
   }
 }

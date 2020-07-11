@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import {OperationType} from '../OperationType';
+import {DialogResult} from '../DialogResult';
 import {Priority} from '../../domain/Priority';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 
@@ -14,11 +14,11 @@ export class EditPriorityDialogComponent implements OnInit {
   private priority: Priority;
   private tmpTitle: string;
   private dialogTitle: string;
-  private operationType: OperationType;
+  private operationType: DialogResult;
 
   constructor(
     private dialogRef: MatDialogRef<EditPriorityDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: [Priority, string, OperationType],
+    @Inject(MAT_DIALOG_DATA) private data: [Priority, string, DialogResult],
     private dialog: MatDialog) {
   }
 
@@ -39,7 +39,7 @@ export class EditPriorityDialogComponent implements OnInit {
   }
 
   private isCanShow() {
-    return this.operationType === OperationType.EDIT;
+    return true;
   }
 
   private onDelete() {

@@ -4,7 +4,7 @@ import {MatDialog} from '@angular/material';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {EditCategoryDialogComponent} from '../../dialog/edit-category-dialog/edit-category-dialog.component';
 import {EditPriorityDialogComponent} from '../../dialog/edit-priority-dialog/edit-priority-dialog.component';
-import {OperationType} from '../../dialog/OperationType';
+import {DialogResult} from '../../dialog/DialogResult';
 
 @Component({
   selector: 'app-priorities',
@@ -33,7 +33,7 @@ export class PrioritiesComponent implements OnInit {
 
   private onEditPriority(priority: Priority) {
     const dialogRef = this.dialog.open(EditPriorityDialogComponent, {
-      data: [priority, 'Edit priority', OperationType.EDIT], width: '500px', autoFocus: false
+      data: [priority, 'Edit priority'], width: '500px', autoFocus: false
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result as 'string' && result === 'delete') {
@@ -65,7 +65,7 @@ export class PrioritiesComponent implements OnInit {
     const priority = new Priority(null, '', PrioritiesComponent.defaultColor);
     const dialogRef = this.dialog.open(EditPriorityDialogComponent, {
       maxWidth: '500px',
-      data: [priority, 'Creating priority', OperationType.ADD], width: '500px', autoFocus: false
+      data: [priority, 'Creating priority'], width: '500px', autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(result => {

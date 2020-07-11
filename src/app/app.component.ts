@@ -7,6 +7,10 @@ import {Priority} from './domain/Priority';
 import {IntroService} from './services/intro.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {CategoryService} from './data/dao/impl/category.service';
+import {TaskService} from './data/dao/impl/task.service';
+import {SearchParams} from './data/dao/search/SearchParams';
+import {PageEvent} from '@angular/material/paginator';
+import {PriorityService} from './data/dao/impl/priority.service';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +22,9 @@ export class AppComponent implements OnInit {
   private tasks: Task[];
   private categories: Category[];
   private priorities: Priority[];
+  private searchParams = new SearchParams();
 
-  private selectedCategory: Category = null;
+  private selectedCategory = null;
 
   private searchTaskByTitle: string;
   private searchCategoryByTitle: string;
@@ -38,11 +43,15 @@ export class AppComponent implements OnInit {
   private menuPosition: string;
   private showBackdrop: boolean;
 
-  private isMobile: boolean;
-  private isTablet: boolean;
+  private readonly isMobile: boolean;
+  private readonly isTablet: boolean;
+  private totalTasksFounded: number;
+  private showSearch: boolean;
 
   constructor(
+    private taskService: TaskService,
     private categoryService: CategoryService,
+    private priorityService: PriorityService,
     private introService: IntroService,
     private deviseService: DeviceDetectorService) {
     this.isMobile = this.deviseService.isMobile();
@@ -61,64 +70,30 @@ export class AppComponent implements OnInit {
   }
 
   private onAddTask(task: Task): void {
-    // this.dataHandlerService.addTask(task)
-    //   .pipe(concatMap(item => {
-    //       return this.dataHandlerService.getUncompletedCountInCategory(item.category)
-    //         .pipe(map(count => {
-    //           return ({item, count});
-    //         }));
-    //     }
-    //   )).subscribe(result => {
-    //   const task1 = result.item as Task;
-    //   if (task1.category) {
-    //     this.categoryMap.set(task1.category, result.count);
-    //   }
-    //   this.updateTasksAndStatistics();
-    // });
+    this.taskService.add(task).subscribe(t => {
+      this.searchTasks(this.searchParams);
+      this.updateCategories();
+    });
   }
 
   private onDeleteTask(task: Task): void {
-    // this.dataHandlerService.deleteTask(task.id)
-    //   .pipe(concatMap(item => {
-    //       return this.dataHandlerService.getUncompletedCountInCategory(item.category)
-    //         .pipe(map(count => {
-    //           return ({item, count});
-    //         }));
-    //     }
-    //   )).subscribe(result => {
-    //   const task1 = result.item as Task;
-    //   if (task1.category) {
-    //     this.categoryMap.set(task1.category, result.count);
-    //   }
-    //   this.updateTasksAndStatistics();
-    // });
+    this.taskService.delete(task.id.toString()).subscribe(t => {
+      this.searchTasks(this.searchParams);
+      this.updateCategories();
+    });
   }
 
   private onUpdateTask(task: Task): void {
-    // this.dataHandlerService.updateTask(task).subscribe(() => {
-    //   this.updateCategories();
-    //   this.updateTasksAndStatistics();
-    // });
-  }
-
-  private onSearchTaskByTitle(title: string): void {
-    this.searchTaskByTitle = title;
-    this.updateTasksAndStatistics();
-  }
-
-  private onFilterTasksByStatus(status: boolean): void {
-    this.filterByStatus = status;
-    this.updateTasksAndStatistics();
-  }
-
-  private onFilterTasksByPriority(priority: Priority): void {
-    this.filterPriority = priority;
-    this.updateTasksAndStatistics();
+    this.taskService.update(task).subscribe(t => {
+      this.searchTasks(this.searchParams);
+      this.updateCategories();
+    });
   }
 
   private onSelectCategory(category: Category): void {
     this.selectedCategory = category;
-    this.updateTasksAndStatistics();
+    this.searchParams.category = this.selectedCategory != null ? this.selectedCategory.id.toString() : null;
+    this.searchTasks(this.searchParams);
   }
 
   private onAddCategory(category: Category): void {
@@ -129,6 +104,9 @@ export class AppComponent implements OnInit {
 
   private onDeleteCategory(category: Category): void {
     this.categoryService.delete(category.id.toString()).subscribe(() => {
+      if (category === this.selectedCategory) {
+        this.onSelectCategory(null);
+      }
       this.updateCategories();
     });
   }
@@ -152,14 +130,8 @@ export class AppComponent implements OnInit {
     // this.updateStatistics();
   }
 
-  private updateCategories(): void {
-    this.categoryService.findCategories(this.searchCategoryByTitle).subscribe(categories => {
-      this.categories = categories;
-    });
-  }
-
   private updatePriorities(): void {
-    // this.dataHandlerService.getAllPriorities().subscribe(priorities => this.priorities = priorities);
+    this.priorityService.getAll().subscribe(priorities => this.priorities = priorities);
   }
 
   private updateStatistics() {
@@ -203,5 +175,36 @@ export class AppComponent implements OnInit {
 
   private onClosedMenu() {
     this.menuOpened = false;
+  }
+
+  private updateCategories(): void {
+    this.categoryService.findCategories(this.searchCategoryByTitle).subscribe(categories => {
+      this.categories = categories;
+    });
+  }
+
+  private searchTasks(searchParams: SearchParams) {
+    this.searchParams = searchParams;
+    this.taskService.findTasks(this.searchParams).subscribe((page) => {
+      this.totalTasksFounded = page.totalElements;
+      this.tasks = page.content;
+    });
+  }
+
+  private paging(pageEvent: PageEvent) {
+    if (this.searchParams.pageLimit !== pageEvent.pageSize) {
+      this.searchParams.pageNumber = 0;
+    } else {
+      this.searchParams.pageNumber = pageEvent.pageIndex;
+    }
+
+    this.searchParams.pageLimit = pageEvent.pageSize;
+    this.searchParams.pageNumber = pageEvent.pageIndex;
+
+    this.searchTasks(this.searchParams);
+  }
+
+  private toggleSearch(showSearch: boolean) {
+    this.showSearch = showSearch;
   }
 }

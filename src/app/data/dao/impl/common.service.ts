@@ -26,6 +26,6 @@ export class CommonService<T> {
   }
 
   update(value: T): Observable<T> {
-    return this.httpClient.put<T>(this.url + '/update', value);
+    return this.httpClient.post<T>(this.url + '/update', value);
   }
 }
