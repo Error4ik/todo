@@ -1,16 +1,17 @@
 <mat-dialog-content>
-  <p mat-dialog-title>{{dialogTitle}}</p>
+  <p mat-dialog-title class="text-center">{{dialogTitle}}</p>
   <mat-form-field>
     <mat-label>Name (required)</mat-label>
-    <input #inputTitle matInput [(ngModel)]="tmpTitle" (keydown.enter)="onConfirm()">
+    <input #inputTitle matInput [(ngModel)]="tmpTitle" (keydown.enter)="onConfirm()" [disabled]="task.completed === 1">
     <button *ngIf="tmpTitle.trim().length > 0" mat-button matSuffix mat-icon-button aria-label="Clear"
+            [disabled]="task.completed === 1"
             (click)="tmpTitle=''" class="clear-button">
       <mat-icon>clear</mat-icon>
     </button>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Choose category</mat-label>
-    <mat-select [(ngModel)]="this.tmpCategory">
+    <mat-select [compareWith]="compareObjects" [(ngModel)]="tmpCategory" [disabled]="task.completed === 1">
       <mat-option [value]="null">Without category</mat-option>
       <mat-option *ngFor="let category of categories" [value]="category">
         {{category.title}}
@@ -19,7 +20,8 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>Choose priority</mat-label>
-    <mat-select [(ngModel)]="tmpPriority">
+    <mat-select [compareWith]="compareObjects" [(ngModel)]="tmpPriority" [disabled]="task.completed === 1">
+      <mat-option [value]="null">Without priority</mat-option>
       <mat-option *ngFor="let priority of priorities" [value]="priority">
         {{priority.title}}
       </mat-option>
@@ -28,12 +30,14 @@
   <mat-form-field>
     <mat-label>Choose a date</mat-label>
     <input #inputDate readonly="true" [matDatepicker]="picker" [(ngModel)]="tmpDate" (click)="picker.open()"
+           [disabled]="task.completed === 1"
            matInput placeholder="Choose date">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
     <button
       *ngIf="inputDate.value.trim().length > 0"
       mat-button matSuffix mat-icon-button aria-label="Clear"
+      [disabled]="task.completed === 1"
       (click)="tmpDate = null" class="clear-button">
       <mat-icon>clear</mat-icon>
     </button>

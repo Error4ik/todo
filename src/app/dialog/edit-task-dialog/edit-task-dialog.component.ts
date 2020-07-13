@@ -22,7 +22,7 @@ export class EditTaskDialogComponent implements OnInit {
   private tmpDate: Date;
   private categories: Category[];
   protected priorities: Priority[];
-  private canShow: boolean;
+  private canShow = false;
 
   constructor(
     private dialogRef: MatDialogRef<EditTaskDialogComponent>,
@@ -39,6 +39,9 @@ export class EditTaskDialogComponent implements OnInit {
     this.tmpCategory = this.task.category;
     this.tmpPriority = this.task.priority;
     this.tmpDate = this.task.date;
+    if (!this.task.id) {
+      this.canShow = true;
+    }
   }
 
   private onConfirm(): void {
@@ -81,5 +84,12 @@ export class EditTaskDialogComponent implements OnInit {
 
   private isCanShow(): boolean {
     return this.canShow;
+  }
+
+  private compareObjects(o1: any, o2: any): boolean {
+    if (o1 != null && o2 != null) {
+      return o1.id === o2.id;
+    }
+    return false;
   }
 }
