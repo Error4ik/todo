@@ -29,7 +29,6 @@ export class TasksComponent implements OnInit {
   private filterCompleted: number;
   private filterPriority: string;
   private filterSortColumn: string;
-  private filterSortDirection: string;
 
   @Input('tasks')
   private set setTasks(tasks: Task[]) {
@@ -187,7 +186,6 @@ export class TasksComponent implements OnInit {
     this.searchParams.completed = this.filterCompleted;
     this.searchParams.priority = this.filterPriority;
     this.searchParams.sortColumn = this.filterSortColumn;
-    this.searchParams.sortDirection = this.filterSortDirection;
 
     this.searchAction.emit(this.searchParams);
   }
@@ -200,7 +198,6 @@ export class TasksComponent implements OnInit {
     this.filterCompleted = this.searchParams.completed;
     this.filterPriority = this.searchParams.priority;
     this.filterSortColumn = this.searchParams.sortColumn;
-    this.filterSortDirection = this.searchParams.sortDirection;
   }
 
   private clearSearchValues() {
@@ -208,7 +205,6 @@ export class TasksComponent implements OnInit {
     this.filterCompleted = null;
     this.filterPriority = null;
     this.filterSortColumn = this.defaultSortColumn;
-    this.filterSortDirection = this.defaultSortDirection;
   }
 
   private onToggleSearch() {
