@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.updatePriorities();
     this.updateCategories();
-    this.onSelectCategory(null);
+    this.onSelectCategory(this.selectedCategory);
     this.setMenuValue();
     if (!this.isMobile && !this.isTablet) {
       this.introService.startIntroJS(true);
@@ -71,29 +71,23 @@ export class AppComponent implements OnInit {
 
   private onAddTask(task: Task): void {
     this.taskService.add(task).subscribe(t => {
-      this.searchTasks(this.searchParams);
       this.updateCategories();
+      this.onSelectCategory(this.selectedCategory);
     });
   }
 
   private onDeleteTask(task: Task): void {
     this.taskService.delete(task.id.toString()).subscribe(t => {
-      this.searchTasks(this.searchParams);
       this.updateCategories();
+      this.onSelectCategory(this.selectedCategory);
     });
   }
 
   private onUpdateTask(task: Task): void {
     this.taskService.update(task).subscribe(t => {
-      this.searchTasks(this.searchParams);
       this.updateCategories();
+      // this.onSelectCategory(this.selectedCategory);
     });
-  }
-
-  private onSelectCategory(category: Category): void {
-    this.selectedCategory = category;
-    this.searchParams.category = this.selectedCategory != null ? this.selectedCategory.id.toString() : null;
-    this.searchTasks(this.searchParams);
   }
 
   private onAddCategory(category: Category): void {
@@ -105,7 +99,8 @@ export class AppComponent implements OnInit {
   private onDeleteCategory(category: Category): void {
     this.categoryService.delete(category.id.toString()).subscribe(() => {
       if (category === this.selectedCategory) {
-        this.onSelectCategory(null);
+        this.selectedCategory = null;
+        this.onSelectCategory(this.selectedCategory);
       }
       this.updateCategories();
     });
@@ -114,6 +109,7 @@ export class AppComponent implements OnInit {
   private onUpdateCategory(category: Category): void {
     this.categoryService.update(category).subscribe(() => {
       this.updateCategories();
+      this.onSelectCategory(this.selectedCategory);
     });
   }
 
@@ -180,7 +176,19 @@ export class AppComponent implements OnInit {
   private updateCategories(): void {
     this.categoryService.findCategories(this.searchCategoryByTitle).subscribe(categories => {
       this.categories = categories;
+      this.categories.forEach(cat => {
+        if (this.selectedCategory && cat.id === this.selectedCategory.id) {
+          this.selectedCategory = cat;
+          return;
+        }
+      });
     });
+  }
+
+  private onSelectCategory(category: Category): void {
+    this.selectedCategory = category;
+    this.searchParams.category = this.selectedCategory != null ? this.selectedCategory.id.toString() : null;
+    this.searchTasks(this.searchParams);
   }
 
   private searchTasks(searchParams: SearchParams) {
