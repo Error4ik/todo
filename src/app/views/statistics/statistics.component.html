@@ -5,28 +5,25 @@
       title="Completed task"
       iconName="done"
       [count1]="completedTasksInCategory"
-      [countTotal]="totalTasksInCategory"
       [completed]="true">
     </app-stat-card>
     <app-stat-card
       class="col-lg-3 col-md-6 col-sm-6"
       title="Uncompleted task"
       iconName="not_interested"
-      [count1]="uncompletedTasksInCategory"
-      [countTotal]="totalTasksInCategory">
+      [count1]="uncompletedTasksInCategory">
+    </app-stat-card>
+    <app-stat-card
+      class="col-lg-3 col-md-6 col-sm-6"
+      title="All tasks"
+      iconName="work"
+      [count1]="totalTasksInCategory">
     </app-stat-card>
     <app-stat-card
       class="col-lg-3 col-md-6 col-sm-6"
       title="Percent completed tasks"
-      iconName="thumb_up_alt"
-      [count1]="completedTasksInCategory ? (completedTasksInCategory/totalTasksInCategory | percent) : '0 %'"
-      [completed]="true">
-    </app-stat-card>
-    <app-stat-card
-      class="col-lg-3 col-md-6 col-sm-6"
-      title="Percent uncompleted tasks"
-      iconName="thumb_down_alt"
-      [count1]="uncompletedTasksInCategory ? (uncompletedTasksInCategory/totalTasksInCategory | percent) : '0 %'">
+      [iconName]="((completedTasksInCategory/totalTasksInCategory) * 100) > 50 ? 'mood' : 'mood_bad'"
+      [count1]="completedTasksInCategory ? (completedTasksInCategory/totalTasksInCategory | percent) : '0 %'">
     </app-stat-card>
   </div>
 </div>

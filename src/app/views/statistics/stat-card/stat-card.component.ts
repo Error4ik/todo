@@ -7,15 +7,15 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class StatCardComponent implements OnInit {
   @Input()
-  completed = false;
+  private completed = false;
   @Input()
-  iconName: string;
+  private iconName: string;
   @Input()
-  count1: any;
+  private count1: any;
   @Input()
-  countTotal: any;
+  private countTotal: any;
   @Input()
-  title: string;
+  private title: string;
 
   constructor() {
   }
