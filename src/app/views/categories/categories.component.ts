@@ -32,7 +32,6 @@ export class CategoriesComponent implements OnInit {
 
   private indexMouseMove: number;
   private filterTitle = '';
-  uncompletedCountAllTasks = 0;
 
   constructor(private dialog: MatDialog, private deviceService: DeviceDetectorService) {
     this.isMobile = this.deviceService.isMobile();

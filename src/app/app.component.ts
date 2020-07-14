@@ -11,6 +11,8 @@ import {TaskService} from './data/dao/impl/task.service';
 import {SearchParams} from './data/dao/search/SearchParams';
 import {PageEvent} from '@angular/material/paginator';
 import {PriorityService} from './data/dao/impl/priority.service';
+import {StatService} from './data/dao/impl/stat.service';
+import {Stat} from './domain/Stat';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,7 @@ export class AppComponent implements OnInit {
   private tasks: Task[];
   private categories: Category[];
   private priorities: Priority[];
+  private stat: Stat;
   private searchParams = new SearchParams();
 
   private selectedCategory = null;
@@ -32,9 +35,9 @@ export class AppComponent implements OnInit {
   private filterByStatus: boolean;
   private filterPriority: Priority;
 
-  private totalTasksCountInCategory: number;
-  private completedTasksCountInCategory: number;
-  private uncompletedTasksCountInCategory: number;
+  private totalTasksCountInCategory = 0;
+  private completedTasksCountInCategory = 0;
+  private uncompletedTasksCountInCategory = 0;
   private uncompletedTotalTasksCount = 0;
   private canShowStatistics = true;
 
@@ -52,6 +55,7 @@ export class AppComponent implements OnInit {
     private taskService: TaskService,
     private categoryService: CategoryService,
     private priorityService: PriorityService,
+    private statService: StatService,
     private introService: IntroService,
     private deviseService: DeviceDetectorService) {
     this.isMobile = this.deviseService.isMobile();
@@ -62,6 +66,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.updatePriorities();
     this.updateCategories();
+    this.updateStatistics();
     this.onSelectCategory(this.selectedCategory);
     this.setMenuValue();
     if (!this.isMobile && !this.isTablet) {
@@ -73,6 +78,7 @@ export class AppComponent implements OnInit {
     this.taskService.add(task).subscribe(t => {
       this.updateCategories();
       this.onSelectCategory(this.selectedCategory);
+      this.updateStatistics();
     });
   }
 
@@ -80,13 +86,14 @@ export class AppComponent implements OnInit {
     this.taskService.delete(task.id.toString()).subscribe(t => {
       this.updateCategories();
       this.onSelectCategory(this.selectedCategory);
+      this.updateStatistics();
     });
   }
 
   private onUpdateTask(task: Task): void {
     this.taskService.update(task).subscribe(t => {
       this.updateCategories();
-      // this.onSelectCategory(this.selectedCategory);
+      this.updateStatistics();
     });
   }
 
@@ -131,17 +138,21 @@ export class AppComponent implements OnInit {
   }
 
   private updateStatistics() {
-    // zip(
-    //   this.dataHandlerService.getTotalTasksCountInCategory(this.selectedCategory),
-    //   this.dataHandlerService.getCompletedCountInCategory(this.selectedCategory),
-    //   this.dataHandlerService.getUncompletedCountInCategory(this.selectedCategory),
-    //   this.dataHandlerService.getUncompletedTotalCount()
-    // ).subscribe(array => {
-    //   this.totalTasksCountInCategory = array[0];
-    //   this.completedTasksCountInCategory = array[1];
-    //   this.uncompletedTasksCountInCategory = array[2];
-    //   this.uncompletedTotalTasksCount = array[3];
-    // });
+    this.statService.getStats().subscribe(stats => {
+      this.stat = stats[0];
+      if (this.selectedCategory === null) {
+        this.uncompletedTotalTasksCount = this.stat.uncompletedTotal;
+        this.totalTasksCountInCategory = this.stat.completedTotal + this.stat.uncompletedTotal;
+        this.completedTasksCountInCategory = this.stat.completedTotal;
+        this.uncompletedTasksCountInCategory = this.stat.uncompletedTotal;
+        this.uncompletedTotalTasksCount = this.stat.uncompletedTotal;
+      } else {
+        this.totalTasksCountInCategory = this.selectedCategory.completedCount + this.selectedCategory.uncompletedCount;
+        this.completedTasksCountInCategory = this.selectedCategory.completedCount;
+        this.uncompletedTasksCountInCategory = this.selectedCategory.uncompletedCount;
+        this.uncompletedTotalTasksCount = this.stat.uncompletedTotal;
+      }
+    });
   }
 
   private toggleStatistics(showStat: boolean) {
@@ -179,6 +190,7 @@ export class AppComponent implements OnInit {
       this.categories.forEach(cat => {
         if (this.selectedCategory && cat.id === this.selectedCategory.id) {
           this.selectedCategory = cat;
+          this.updateStatistics();
           return;
         }
       });
@@ -187,6 +199,7 @@ export class AppComponent implements OnInit {
 
   private onSelectCategory(category: Category): void {
     this.selectedCategory = category;
+    this.updateStatistics();
     this.searchParams.category = this.selectedCategory != null ? this.selectedCategory.id.toString() : null;
     this.searchTasks(this.searchParams);
   }
