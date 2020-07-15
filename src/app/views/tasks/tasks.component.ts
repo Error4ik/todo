@@ -79,7 +79,7 @@ export class TasksComponent implements OnInit {
 
   readonly defaultSortColumn = 'title';
   readonly defaultSortDirection = 'asc';
-  readonly colorCompletedTask = '#F8F9FA';
+  readonly colorCompletedTask = '#ebeced';
   readonly colorWhite = '#fff';
 
   constructor(private dialog: MatDialog, private deviceService: DeviceDetectorService) {

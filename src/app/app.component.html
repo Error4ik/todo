@@ -1,5 +1,7 @@
 <ng-sidebar-container style="height: 100vh">
   <ng-sidebar
+    (onClosed)="onClosedMenu()"
+
     [opened]="menuOpened"
     [closeOnClickOutside]="false"
     [closeOnClickBackdrop]="true"
@@ -7,8 +9,7 @@
     [mode]="menuMode"
     [animate]="true"
     [position]="menuPosition"
-    [autoFocus]="false"
-    (onClosed)="onClosedMenu()">
+    [autoFocus]="false">
     <div class="sidebar"
          data-color="purple"
          data-step="1"
@@ -30,25 +31,27 @@
   <div ng-sidebar-content>
     <div class="main-panel">
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-        <!--        <app-header-->
-        <!--          (toggleStatistics)="toggleStatistics($event)"-->
-        <!--          (helpIntro)="onHelpIntro($event)"-->
-        <!--          [categoryName]="selectedCategory ? selectedCategory.title : 'Все'"-->
-        <!--          [canShowStatistics]="canShowStatistics"-->
-        <!--          (toggleMenu)="toggleMenu()">-->
-        <!--        </app-header>-->
+        <app-header
+          (toggleStatistics)="toggleStatistics($event)"
+          (helpIntro)="onHelpIntro($event)"
+          (toggleMenu)="toggleMenu()"
+          (changeSettings)="changeSettings()"
+
+          [categoryName]="selectedCategory ? selectedCategory.title : 'Все'"
+          [canShowStatistics]="canShowStatistics">
+        </app-header>
       </nav>
       <div class="content">
         <div class="container-fluid">
           <div data-step="2"
                data-intro="Статистика по задачам"
                data-position='top'>
-                        <app-statistics
-                          [totalTasksInCategory]="totalTasksCountInCategory"
-                          [completedTasksInCategory]="completedTasksCountInCategory"
-                          [uncompletedTasksInCategory]="uncompletedTasksCountInCategory"
-                          [canShowStatistics]="canShowStatistics">
-                        </app-statistics>
+            <app-statistics
+              [totalTasksInCategory]="totalTasksCountInCategory"
+              [completedTasksInCategory]="completedTasksCountInCategory"
+              [uncompletedTasksInCategory]="uncompletedTasksCountInCategory"
+              [canShowStatistics]="canShowStatistics">
+            </app-statistics>
           </div>
           <div class="row">
             <div class="col-12"

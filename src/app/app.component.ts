@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Task} from './domain/Task';
 import {Category} from './domain/Category';
 import {Priority} from './domain/Priority';
-// import {zip} from 'rxjs';
-// import {concatMap, map} from 'rxjs/operators';
 import {IntroService} from './services/intro.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {CategoryService} from './data/dao/impl/category.service';
@@ -20,7 +18,6 @@ import {Stat} from './domain/Stat';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  private title = 'todo';
   private tasks: Task[];
   private categories: Category[];
   private priorities: Priority[];
@@ -28,12 +25,7 @@ export class AppComponent implements OnInit {
   private searchParams = new SearchParams();
 
   private selectedCategory = null;
-
-  private searchTaskByTitle: string;
   private searchCategoryByTitle: string;
-
-  private filterByStatus: boolean;
-  private filterPriority: Priority;
 
   private totalTasksCountInCategory = 0;
   private completedTasksCountInCategory = 0;
@@ -123,14 +115,6 @@ export class AppComponent implements OnInit {
   private onSearchCategoryByTitle(categoryName: string): void {
     this.searchCategoryByTitle = categoryName;
     this.updateCategories();
-  }
-
-  private updateTasksAndStatistics(): void {
-    // this.dataHandlerService.searchTasks(this.selectedCategory, this.searchTaskByTitle, this.filterByStatus, this.filterPriority)
-    //   .subscribe((tasks: Task[]) => {
-    //     this.tasks = tasks;
-    //   });
-    // this.updateStatistics();
   }
 
   private updatePriorities(): void {
@@ -227,5 +211,10 @@ export class AppComponent implements OnInit {
 
   private toggleSearch(showSearch: boolean) {
     this.showSearch = showSearch;
+  }
+
+  private changeSettings() {
+    this.searchTasks(this.searchParams);
+    this.updatePriorities();
   }
 }

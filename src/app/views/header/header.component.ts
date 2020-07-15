@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {SettingsDialogComponent} from '../../dialog/settings-dialog/settings-dialog.component';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {DialogAction} from '../../dialog/DialogResult';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +20,8 @@ export class HeaderComponent implements OnInit {
   private helpIntro = new EventEmitter<any>();
   @Output()
   private toggleMenu = new EventEmitter();
+  @Output()
+  private changeSettings = new EventEmitter();
 
   private isMobile: boolean;
 
@@ -34,9 +37,16 @@ export class HeaderComponent implements OnInit {
   }
 
   private showSettings() {
-    this.dialog.open(SettingsDialogComponent, {
+    const dialogRef = this.dialog.open(SettingsDialogComponent, {
       autoFocus: false,
+      disableClose: true,
       width: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.action === DialogAction.SETTINGS_CHANGE) {
+        this.changeSettings.emit();
+      }
     });
   }
 

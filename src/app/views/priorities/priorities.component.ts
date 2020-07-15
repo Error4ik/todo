@@ -2,9 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Priority} from '../../domain/Priority';
 import {MatDialog} from '@angular/material';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
-import {EditCategoryDialogComponent} from '../../dialog/edit-category-dialog/edit-category-dialog.component';
 import {EditPriorityDialogComponent} from '../../dialog/edit-priority-dialog/edit-priority-dialog.component';
-import {DialogResult} from '../../dialog/DialogResult';
+import {DialogAction} from '../../dialog/DialogResult';
 
 @Component({
   selector: 'app-priorities',
@@ -36,11 +35,10 @@ export class PrioritiesComponent implements OnInit {
       data: [priority, 'Edit priority'], width: '500px', autoFocus: false
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result as 'string' && result === 'delete') {
-        this.deletePriority.emit(priority);
+      if (result && result.action === DialogAction.SAVE) {
+        this.editPriority.emit(result.object);
         return;
       }
-      this.editPriority.emit(priority);
     });
   }
 
@@ -55,7 +53,7 @@ export class PrioritiesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result && result.action === DialogAction.OK) {
         this.deletePriority.emit(priority);
       }
     });
@@ -69,9 +67,8 @@ export class PrioritiesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        priority.title = result.title;
-        this.addPriority.emit(priority);
+      if (result && result.action === DialogAction.SAVE) {
+        this.addPriority.emit(result.object);
       }
     });
   }

@@ -8,16 +8,20 @@
       <mat-icon>clear</mat-icon>
     </button>
   </mat-form-field>
+  <span
+    [(colorPicker)]="priority.color"
+    [style.background]="priority.color"
+    class="color-circle">
+  </span>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <div class="col-md-5 col-12">
+  <div class="col-md-6 col-12 text-center">
     <button mat-raised-button color="primary" (click)="onConfirm()" [disabled]="inputTitle.value.trim().length == 0">
       Save
     </button>
-    <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
   </div>
-  <div class="col-md-7 col-12 text-right" *ngIf="isCanShow()">
-    <button mat-button color="warn" (click)="onDelete()">Delete</button>
+  <div class="col-md-6 col-12 text-center">
+    <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
   </div>
 </mat-dialog-actions>
