@@ -23,18 +23,20 @@ export class TaskService extends CommonService<Task> implements TaskDAO {
   }
 
   update(id: string, task: Task): Observable<Task> {
-    const requestTask = new RequestTask(
-      task.title, task.completed, task.priority.id.toString(), task.category.id.toString(), task.date);
+    const requestTask = this.getRequestTask(task);
     return this.http.put<Task>(this.baseUrl + '/' + id, requestTask);
   }
 
   add(task: Task): Observable<Task> {
-    const requestTask = new RequestTask(
-      task.title, task.completed, task.priority.id.toString(), task.category.id.toString(), task.date);
+    const requestTask = this.getRequestTask(task);
     return this.http.post<Task>(this.baseUrl + '/', requestTask);
   }
 
   getAll(): Observable<Task[]> {
     return this.http.get<Task[]>(this.baseUrl + '/');
+  }
+
+  private getRequestTask(task: Task) {
+    return new RequestTask(task.title, task.completed, task.priority.id.toString(), task.category.id.toString(), task.date);
   }
 }
