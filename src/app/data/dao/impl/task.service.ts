@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {SearchParams} from '../search/SearchParams';
 import {HttpClient} from '@angular/common/http';
 import {CommonService} from './common.service';
+import {RequestTask} from '../search/RequestTask';
 
 export const TASK_URL_TOKEN = new InjectionToken<string>('url');
 
@@ -18,10 +19,22 @@ export class TaskService extends CommonService<Task> implements TaskDAO {
   }
 
   findTasks(searchParams: SearchParams): Observable<any> {
-    return this.http.post<any>(this.baseUrl + '/search', searchParams);
+    return this.getAll();
+  }
+
+  update(id: string, task: Task): Observable<Task> {
+    const requestTask = new RequestTask(
+      task.title, task.completed, task.priority.id.toString(), task.category.id.toString(), task.date);
+    return this.http.put<Task>(this.baseUrl + '/' + id, requestTask);
+  }
+
+  add(task: Task): Observable<Task> {
+    const requestTask = new RequestTask(
+      task.title, task.completed, task.priority.id.toString(), task.category.id.toString(), task.date);
+    return this.http.post<Task>(this.baseUrl + '/', requestTask);
   }
 
   getAll(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.baseUrl + '/tasks');
+    return this.http.get<Task[]>(this.baseUrl + '/');
   }
 }

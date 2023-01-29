@@ -15,6 +15,6 @@ export class StatService implements StatDAO {
   }
 
   getStats(): Observable<Stat[]> {
-    return this.httpClient.get<Stat[]>(this.baseUrl + '/stats');
+    return this.httpClient.get<Stat[]>(this.baseUrl + '/');
   }
 }

@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   private searchParams = new SearchParams();
 
   private selectedCategory = null;
-  private searchCategoryByTitle: string;
+  private searchCategoryByTitle = '';
 
   private totalTasksCountInCategory = 0;
   private completedTasksCountInCategory = 0;
@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
   }
 
   private onUpdateTask(task: Task): void {
-    this.taskService.update(task).subscribe(t => {
+    this.taskService.update(task.id.toString(), task).subscribe(t => {
       this.updateCategories();
       this.updateStatistics();
     });
@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
   }
 
   private onUpdateCategory(category: Category): void {
-    this.categoryService.update(category).subscribe(() => {
+    this.categoryService.update(category.id.toString(), category).subscribe(() => {
       this.updateCategories();
       this.onSelectCategory(this.selectedCategory);
     });
@@ -190,9 +190,8 @@ export class AppComponent implements OnInit {
 
   private searchTasks(searchParams: SearchParams) {
     this.searchParams = searchParams;
-    this.taskService.findTasks(this.searchParams).subscribe((page) => {
-      this.totalTasksFounded = page.totalElements;
-      this.tasks = page.content;
+    this.taskService.findTasks(this.searchParams).subscribe((tasks) => {
+      this.tasks = tasks;
     });
   }
 

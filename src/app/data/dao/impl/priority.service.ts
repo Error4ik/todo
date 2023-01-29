@@ -17,6 +17,6 @@ export class PriorityService extends CommonService<Priority> implements Priority
   }
 
   getAll(): Observable<Priority[]> {
-    return this.http.get<Priority[]>(this.baseUrl + '/priorities');
+    return this.http.get<Priority[]>(this.baseUrl + '/');
   }
 }

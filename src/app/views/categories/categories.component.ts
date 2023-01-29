@@ -94,7 +94,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   private clearAndSearch() {
-    this.filterTitle = null;
+    this.filterTitle = '';
     this.onFilterByCategoryName();
   }
 

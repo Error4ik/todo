@@ -92,19 +92,19 @@ registerLocaleData(localeRu);
     TaskService,
     {
       provide: TASK_URL_TOKEN,
-      useValue: 'http://localhost:8095/task'
+      useValue: 'http://localhost:8095/api/v1/tasks'
     },
     {
       provide: CATEGORY_URL_TOKEN,
-      useValue: 'http://localhost:8095/category'
+      useValue: 'http://localhost:8095/api/v1/categories'
     },
     {
       provide: PRIORITY_URL_TOKEN,
-      useValue: 'http://localhost:8095/priority'
+      useValue: 'http://localhost:8095/api/v1/priorities'
     },
     {
       provide: STAT_URL_TOKEN,
-      useValue: 'http://localhost:8095/stat'
+      useValue: 'http://localhost:8095/api/v1/stats'
     }
   ],
   entryComponents: [

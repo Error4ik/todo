@@ -1,5 +1,5 @@
 import {Inject, Injectable, InjectionToken} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {CategoryDAO} from '../interface/CategoryDAO';
 import {Category} from '../../../domain/Category';
 import {Observable} from 'rxjs';
@@ -17,10 +17,12 @@ export class CategoryService extends CommonService<Category> implements Category
   }
 
   findCategories(title: string): Observable<Category[]> {
-    return this.http.post<Category[]>(this.baseUrl + '/find-by-title', title);
+    let param = new HttpParams();
+    param = param.append('title', title);
+    return this.http.get<Category[]>(this.baseUrl + `/find-by-title`, {params: param});
   }
 
   getAll(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.baseUrl + '/categories');
+    return this.http.get<Category[]>(this.baseUrl + '/');
   }
 }

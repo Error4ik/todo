@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
@@ -14,18 +14,18 @@ export class CommonService<T> {
   }
 
   add(item: T): Observable<T> {
-    return this.httpClient.post<T>(this.url + '/add', item);
+    return this.httpClient.post<T>(this.url + '/', item);
   }
 
   delete(id: string): Observable<T> {
-    return this.httpClient.delete<T>(this.url + '/delete/' + id);
+    return this.httpClient.delete<T>(this.url + '/' + id);
   }
 
   get(id: string): Observable<T> {
-    return this.httpClient.get<T>(this.url + '/id/' + id);
+    return this.httpClient.get<T>(this.url + '/' + id);
   }
 
-  update(value: T): Observable<T> {
-    return this.httpClient.post<T>(this.url + '/update', value);
+  update(id: string, value: T): Observable<T> {
+    return this.httpClient.put<T>(this.url + '/' + id, value);
   }
 }

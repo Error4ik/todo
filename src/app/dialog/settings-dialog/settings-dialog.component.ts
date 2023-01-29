@@ -47,7 +47,7 @@ export class SettingsDialogComponent implements OnInit {
 
   private onEditPriority(priority: Priority) {
     this.settingsChanges = true;
-    this.priorityService.update(priority).subscribe(() => {
+    this.priorityService.update(priority.id.toString(), priority).subscribe(() => {
       this.priorities[this.getPriorityNumber(priority)] = priority;
     });
   }
