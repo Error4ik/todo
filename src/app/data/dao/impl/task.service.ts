@@ -22,7 +22,7 @@ export class TaskService extends CommonService<Task> implements TaskDAO {
     let param = new HttpParams();
 
     param = param.append('title', searchParams.title);
-    param = param.append('completed', String(searchParams.completed));
+    param = param.append('completed', searchParams.completed);
     param = param.append('priority', searchParams.priority);
     param = param.append('category', searchParams.category);
     param = param.append('pageNumber', searchParams.pageNumber.toString());
