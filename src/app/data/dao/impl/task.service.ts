@@ -3,7 +3,7 @@ import {TaskDAO} from '../interface/TaskDAO';
 import {Task} from '../../../domain/Task';
 import {Observable} from 'rxjs';
 import {SearchParams} from '../search/SearchParams';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {CommonService} from './common.service';
 import {RequestTask} from '../search/RequestTask';
 
@@ -19,7 +19,18 @@ export class TaskService extends CommonService<Task> implements TaskDAO {
   }
 
   findTasks(searchParams: SearchParams): Observable<any> {
-    return this.getAll();
+    let param = new HttpParams();
+
+    param = param.append('title', searchParams.title);
+    param = param.append('completed', String(searchParams.completed));
+    param = param.append('priority', searchParams.priority);
+    param = param.append('category', searchParams.category);
+    param = param.append('pageNumber', searchParams.pageNumber.toString());
+    param = param.append('pageLimit', searchParams.pageLimit.toString());
+    param = param.append('sortColumn', searchParams.sortColumn);
+    param = param.append('sortDirection', searchParams.sortDirection);
+
+    return this.http.get<Task>(this.baseUrl + '/search', {params: param});
   }
 
   update(id: string, task: Task): Observable<Task> {

@@ -26,7 +26,7 @@ export class TasksComponent implements OnInit {
   private searchParams: SearchParams;
 
   private filterTitle: string;
-  private filterCompleted: number;
+  private filterCompleted: string;
   private filterPriority: string;
   private filterSortColumn: string;
 
@@ -202,8 +202,8 @@ export class TasksComponent implements OnInit {
 
   private clearSearchValues() {
     this.filterTitle = '';
-    this.filterCompleted = null;
-    this.filterPriority = null;
+    this.filterCompleted = '';
+    this.filterPriority = '';
     this.filterSortColumn = this.defaultSortColumn;
   }
 

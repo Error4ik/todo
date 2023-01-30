@@ -184,14 +184,18 @@ export class AppComponent implements OnInit {
   private onSelectCategory(category: Category): void {
     this.selectedCategory = category;
     this.updateStatistics();
-    this.searchParams.category = this.selectedCategory != null ? this.selectedCategory.id.toString() : null;
+    this.searchParams.category = this.selectedCategory != null ? this.selectedCategory.id.toString() : '';
     this.searchTasks(this.searchParams);
   }
 
   private searchTasks(searchParams: SearchParams) {
     this.searchParams = searchParams;
-    this.taskService.findTasks(this.searchParams).subscribe((tasks) => {
-      this.tasks = tasks;
+    console.log(searchParams);
+    console.log(this.searchParams);
+    this.taskService.findTasks(this.searchParams).subscribe((page) => {
+      console.log(page);
+      this.totalTasksFounded = page.totalElements;
+      this.tasks = page.content;
     });
   }
 
